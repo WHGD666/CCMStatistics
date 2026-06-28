@@ -1,0 +1,453 @@
+/* ============================================
+   动画系统 - 苹果流畅动画规范
+   ============================================ */
+
+// ========== 核心动画 - 苹果式平滑过渡 ==========
+
+// 淡入淡出 - 最基础动画
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+// 苹果式滑入滑出 - 精致曲线
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideLeft {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideRight {
+  from {
+    opacity: 0;
+    transform: translateX(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+// 苹果式缩放 - 弹簧感
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes scaleOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}
+
+// 苹果式弹跳 - 微妙弹性
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes bounceOut {
+  0% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(0.95);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+}
+
+// 苹果式微动 - 细微反馈
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-4px);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translateX(4px);
+  }
+}
+
+@keyframes wiggle {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-3deg);
+  }
+  75% {
+    transform: rotate(3deg);
+  }
+}
+
+// 苹果式闪光 - 加载状态
+@keyframes shimmer {
+  0% {
+    background-position: -1000px center;
+  }
+  100% {
+    background-position: 1000px center;
+  }
+}
+
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 5px var(--accent-glow);
+  }
+  50% {
+    box-shadow: 0 0 20px var(--accent-glow), 0 0 30px var(--accent-soft);
+  }
+}
+
+// 苹果式旋转
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spinReverse {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+// ========== 交互动画 - 苹果式响应 ==========
+
+// 按钮点击反馈
+@keyframes buttonPress {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.95);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+// 卡片悬停升起
+@keyframes cardHover {
+  from {
+    transform: translateY(0);
+    box-shadow: var(--shadow-card);
+  }
+  to {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+}
+
+// 成功反馈动画
+@keyframes successPop {
+  0% {
+    transform: scale(0) rotate(-45deg);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2) rotate(10deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+// 错误反馈动画
+@keyframes errorShake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-8px);
+  }
+  40% {
+    transform: translateX(8px);
+  }
+  60% {
+    transform: translateX(-4px);
+  }
+  80% {
+    transform: translateX(4px);
+  }
+}
+
+// ========== 页面过渡动画 ==========
+
+// 页面切换
+.page-enter {
+  animation: slideUp 0.35s ease('smooth');
+}
+
+.page-exit {
+  animation: fadeOut 0.15s ease('out');
+}
+
+// 模态框
+.modal-enter {
+  animation: scaleIn 0.25s ease('spring');
+}
+
+.modal-exit {
+  animation: scaleOut 0.15s ease('out');
+}
+
+// 侧边栏滑出
+.sidebar-enter {
+  animation: slideLeft 0.3s ease('smooth');
+}
+
+.sidebar-exit {
+  animation: slideRight 0.25s ease('out');
+}
+
+// Toast 通知
+.toast-enter {
+  animation: slideDown 0.3s ease('spring');
+}
+
+.toast-exit {
+  animation: fadeOut 0.15s ease('out');
+}
+
+// ========== 数据更新动画 ==========
+
+// 数值变化
+@keyframes valueChange {
+  0% {
+    transform: scale(1);
+    color: var(--text-1);
+  }
+  25% {
+    transform: scale(1.05);
+    color: var(--accent);
+  }
+  100% {
+    transform: scale(1);
+    color: var(--text-1);
+  }
+}
+
+// 新数据提示
+@keyframes newHighlight {
+  0% {
+    background: var(--accent-soft);
+  }
+  100% {
+    background: var(--bg-card);
+  }
+}
+
+// ========== 装饰动画 ==========
+
+// 渐变流动
+@keyframes gradientFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+// 边框闪烁
+@keyframes borderGlow {
+  0%, 100% {
+    border-color: var(--border);
+  }
+  50% {
+    border-color: var(--accent);
+  }
+}
+
+// ========== 动画工具类 ==========
+
+.animate-fade-in {
+  animation: fadeIn 0.2s ease('smooth');
+}
+
+.animate-slide-up {
+  animation: slideUp 0.3s ease('smooth');
+}
+
+.animate-slide-down {
+  animation: slideDown 0.3s ease('smooth');
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.25s ease('spring');
+}
+
+.animate-bounce-in {
+  animation: bounceIn 0.4s ease('spring');
+}
+
+.animate-pulse {
+  animation: pulse 2s infinite;
+}
+
+.animate-shake {
+  animation: shake 0.5s;
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+.animate-glow {
+  animation: glow 2s infinite;
+}
+
+// ========== 动画延迟控制 ==========
+
+.delay-50 { animation-delay: 50ms; }
+.delay-100 { animation-delay: 100ms; }
+.delay-150 { animation-delay: 150ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-250 { animation-delay: 250ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-350 { animation-delay: 350ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+
+// ========== 动画时长控制 ==========
+
+.duration-fast { animation-duration: 0.15s; }
+.duration-normal { animation-duration: 0.25s; }
+.duration-slow { animation-duration: 0.35s; }
+.duration-slower { animation-duration: 0.5s; }
+
+// ========== GPU 加速优化 ==========
+
+.gpu-accelerated {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+// ========== 减少动画模式 - 无障碍支持 ==========
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+// ========== 交互状态过渡 ==========
+
+// 悬停平滑过渡
+.hover-smooth {
+  @include apple-transition(all, 'normal', 'smooth');
+  
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
+
+// 点击反馈
+.click-feedback {
+  @include apple-transition(transform, 'fast', 'smooth');
+  
+  &:active {
+    transform: scale(0.97);
+  }
+}
+
+// 焦点动画
+.focus-animate:focus-visible {
+  animation: glow 1s;
+}
+
+// ========== 装饰性动画 - 仅在视觉增强模式下 ==========
+
+.decorative-motion {
+  @media (prefers-reduced-motion: no-preference) {
+    animation: pulse 3s infinite;
+  }
+}

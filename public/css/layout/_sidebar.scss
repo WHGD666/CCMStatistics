@@ -1,0 +1,372 @@
+/* ============================================
+   侧边栏布局 - 苹果极简导航
+   ============================================ */
+
+.sidebar {
+  @include apple-typography('lg', 'normal');
+  
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  
+  width: 200px;
+  height: 100vh;
+  
+  background: var(--bg-sidebar);
+  border-right: 1px solid var(--border);
+  
+  display: flex;
+  flex-direction: column;
+  
+  z-index: z-index('sticky');
+  
+  // 苹果式平滑滚动
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--text-4) transparent;
+  
+  // 苹果式噪点纹理
+  [data-theme="dark"] {
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--noise);
+      pointer-events: none;
+      opacity: 0.02;
+      z-index: -1;
+    }
+  }
+  
+  // 移动端响应式
+  @include respond-down('md') {
+    width: 240px;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease('smooth');
+    box-shadow: var(--shadow-xl);
+    
+    &.sidebar-open {
+      transform: translateX(0);
+    }
+  }
+}
+
+// ========== 侧边栏头部 ==========
+
+.sidebar-header {
+  padding: spacing('lg') spacing('md');
+  
+  display: flex;
+  align-items: center;
+  gap: spacing('sm');
+  
+  // 苹果式 Logo 区域
+  .logo {
+    @include apple-typography('2xl', 'bold');
+    color: var(--text-1);
+    
+    display: flex;
+    align-items: center;
+    gap: spacing('sm');
+    
+    svg {
+      width: 20px;
+      height: 20px;
+      color: var(--accent);
+    }
+    
+    .logo-text {
+      letter-spacing: -0.3px;
+      
+      .logo-highlight {
+        color: var(--accent);
+        font-weight: 700;
+      }
+    }
+  }
+  
+  border-bottom: 1px solid var(--border);
+}
+
+// ========== 导航菜单 - 苹果式清单 ==========
+
+.sidebar-nav {
+  flex: 1;
+  padding: spacing('md') 0;
+  
+  display: flex;
+  flex-direction: column;
+  gap: spacing('xs');
+  
+  .nav-section {
+    margin-bottom: spacing('md');
+    
+    .nav-section-title {
+      @include apple-typography('sm', 'semibold');
+      color: var(--text-3);
+      
+      padding: spacing('sm') spacing('lg');
+      margin-bottom: spacing('xs');
+      
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+  }
+}
+
+.nav-item {
+  @include apple-typography('lg', 'medium');
+  @include apple-radius(0);
+  @include apple-transition(all, 'fast', 'smooth');
+  
+  display: flex;
+  align-items: center;
+  gap: spacing('md');
+  
+  padding: spacing('md') spacing('lg');
+  margin: 0 spacing('sm');
+  
+  color: var(--text-2);
+  
+  cursor: pointer;
+  position: relative;
+  
+  border: none;
+  background: transparent;
+  
+  svg, i {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    opacity: 0.7;
+  }
+  
+  .nav-text {
+    flex: 1;
+    white-space: nowrap;
+  }
+  
+  .nav-badge {
+    @include apple-typography('sm', 'bold');
+    @include apple-radius('full');
+    
+    padding: 1px 5px;
+    
+    background: var(--accent-soft);
+    color: var(--accent);
+    
+    font-variant-numeric: tabular-nums;
+  }
+  
+  // 苹果式悬停效果
+  &:hover {
+    color: var(--text-1);
+    background: var(--bg-card-hover);
+    
+    svg, i {
+      opacity: 1;
+    }
+  }
+  
+  // 苹果式激活状态 - 精致指示器
+  &.nav-active {
+    color: var(--accent);
+    background: var(--accent-soft);
+    
+    font-weight: 600;
+    
+    // 苹果式侧边指示线
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 3px;
+      height: 20px;
+      background: var(--accent-gradient);
+      border-radius: 0 2px 2px 0;
+    }
+    
+    svg, i {
+      opacity: 1;
+      color: var(--accent);
+    }
+  }
+  
+  // 苹果式聚焦状态
+  &:focus-visible {
+    outline: none;
+    box-shadow: inset 0 0 0 2px var(--accent-soft);
+    border-radius: radius('md');
+  }
+  
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+// ========== 侧边栏底部 ==========
+
+.sidebar-footer {
+  padding: spacing('md') spacing('lg');
+  border-top: 1px solid var(--border);
+  
+  display: flex;
+  flex-direction: column;
+  gap: spacing('sm');
+  
+  .sidebar-stats {
+    display: flex;
+    justify-content: space-between;
+    
+    @include apple-typography('sm', 'normal');
+    color: var(--text-3);
+    
+    .stat-label {
+      opacity: 0.8;
+    }
+    
+    .stat-value {
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+    }
+  }
+  
+  // 苹果式版本信息
+  .version-info {
+    @include apple-typography('sm', 'normal');
+    color: var(--text-4);
+    
+    display: flex;
+    align-items: center;
+    gap: spacing('xs');
+    
+    opacity: 0.7;
+  }
+}
+
+// ========== 侧边栏遮罩层 - 移动端 ==========
+
+.sidebar-overlay {
+  display: none;
+  
+  @include respond-down('md') {
+    display: block;
+    
+    position: fixed;
+    inset: 0;
+    
+    background: rgba(0,0,0,0.6);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    
+    z-index: z-index('modal') - 1;
+    
+    opacity: 0;
+    pointer-events: none;
+    
+    @include apple-transition(opacity, 'normal', 'smooth');
+    
+    &.overlay-visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+}
+
+// ========== 侧边栏主题切换 ==========
+
+.theme-switcher {
+  display: flex;
+  align-items: center;
+  gap: spacing('md');
+  
+  padding: spacing('sm') spacing('lg');
+  margin-top: spacing('md');
+  
+  .theme-label {
+    @include apple-typography('lg', 'medium');
+    color: var(--text-2);
+    flex: 1;
+  }
+  
+  .theme-toggle {
+    // 使用苹果式开关样式
+  }
+}
+
+// ========== 侧边栏紧凑模式 ==========
+
+.sidebar-compact {
+  width: 160px;
+  
+  .nav-item {
+    padding: spacing('sm') spacing('md');
+    
+    svg, i {
+      width: 14px;
+      height: 14px;
+    }
+  }
+  
+  .sidebar-header .logo .logo-text {
+    font-size: font-size('lg');
+  }
+}
+
+// ========== 侧边栏展开模式 ==========
+
+.sidebar-expanded {
+  width: 240px;
+  
+  .nav-item {
+    padding: spacing('md') spacing('xl');
+    
+    svg, i {
+      width: 18px;
+      height: 18px;
+    }
+  }
+  
+  .sidebar-header .logo .logo-text {
+    font-size: font-size('3xl');
+  }
+}
+
+// ========== 无障碍支持 ==========
+
+@media (prefers-contrast: high) {
+  .sidebar {
+    border-width: 2px;
+  }
+  
+  .nav-item.nav-active::before {
+    width: 4px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sidebar,
+  .nav-item,
+  .sidebar-overlay {
+    transition: none;
+  }
+}
+
+// ========== 入场动画 ==========
+
+.sidebar-enter {
+  animation: slideRight 0.3s ease('smooth');
+}
+
+.nav-item-enter {
+  animation: fadeIn 0.2s ease('smooth');
+  
+  @for $i from 1 through 10 {
+    &:nth-child(#{$i}) {
+      animation-delay: #{$i * 30ms};
+    }
+  }
+}

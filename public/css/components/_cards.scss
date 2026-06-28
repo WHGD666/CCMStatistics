@@ -1,0 +1,520 @@
+/* ============================================
+   卡片组件 - 苹果精致设计
+   ============================================ */
+
+// ========== 卡片基础 ==========
+
+.card {
+  @include apple-card-effect;
+  @include apple-transition(all, 'normal', 'smooth');
+  
+  position: relative;
+  overflow: hidden;
+  
+  // 苹果式悬浮效果
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--border-hover);
+  }
+  
+  // 苹果式光泽层
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, 
+      rgba(255,255,255,0.04) 0%,
+      transparent 40%,
+      transparent 60%,
+      rgba(255,255,255,0.02) 100%
+    );
+    pointer-events: none;
+    opacity: 0;
+    @include apple-transition(opacity, 'normal', 'smooth');
+  }
+  
+  &:hover::before {
+    opacity: 1;
+  }
+}
+
+.card-header {
+  padding: spacing('md') spacing('lg');
+  border-bottom: 1px solid var(--border);
+  
+  @include apple-typography('lg', 'semibold');
+  color: var(--text-1);
+  
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: spacing('md');
+}
+
+.card-body {
+  padding: spacing('lg');
+  
+  // 确保内容不会溢出
+  overflow-x: auto;
+}
+
+.card-footer {
+  padding: spacing('md') spacing('lg');
+  border-top: 1px solid var(--border);
+  
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: spacing('sm');
+}
+
+// ========== 统计卡片 - 苹果极简风格 ==========
+
+.stat-card {
+  @extend .card;
+  padding: spacing('lg');
+  
+  display: flex;
+  flex-direction: column;
+  gap: spacing('xs');
+  
+  .stat-label {
+    @include apple-typography('sm', 'medium');
+    color: var(--text-3);
+    display: flex;
+    align-items: center;
+    gap: spacing('xs');
+    
+    svg, i {
+      width: 12px;
+      height: 12px;
+    }
+  }
+  
+  .stat-value {
+    @include apple-typography('4xl', 'bold');
+    color: var(--text-1);
+    line-height: 1.2;
+    font-variant-numeric: tabular-nums;
+    
+    &.text-green { color: var(--green); }
+    &.text-red { color: var(--red); }
+    &.text-amber { color: var(--amber); }
+    &.text-blue { color: var(--blue); }
+    &.text-accent { color: var(--accent); }
+  }
+  
+  .stat-sub {
+    @include apple-typography('xs', 'normal');
+    color: var(--text-4);
+    
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    
+    .trend-up { color: var(--green); }
+    .trend-down { color: var(--red); }
+  }
+  
+  // 苹果式微光效果
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40%;
+    height: 40%;
+    background: radial-gradient(
+      circle at top right,
+      rgba(132,116,247,0.03),
+      transparent 70%
+    );
+    pointer-events: none;
+  }
+}
+
+// ========== 项目卡片 - 苹果精致设计 ==========
+
+.project-card {
+  @extend .card;
+  padding: spacing('md');
+  
+  cursor: pointer;
+  
+  display: flex;
+  flex-direction: column;
+  gap: spacing('sm');
+  
+  // 苹果式信息密度
+  .project-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: spacing('sm');
+  }
+  
+  .project-name {
+    @include apple-typography('lg', 'semibold');
+    color: var(--text-1);
+    @extend .truncate;
+  }
+  
+  .project-meta {
+    display: flex;
+    align-items: center;
+    gap: spacing('md');
+    
+    @include apple-typography('base', 'normal');
+    color: var(--text-3);
+    
+    span {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      
+      svg, i {
+        width: 11px;
+        height: 11px;
+        opacity: 0.7;
+      }
+    }
+  }
+  
+  .project-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: spacing('sm');
+    
+    margin-top: spacing('xs');
+  }
+  
+  .project-stat {
+    @include apple-typography('sm', 'normal');
+    color: var(--text-2);
+    
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    
+    .value {
+      @include apple-typography('base', 'semibold');
+      color: var(--text-1);
+    }
+  }
+  
+  // 苹果式状态指示器
+  .project-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    
+    padding: 2px 6px;
+    border-radius: radius('full');
+    
+    @include apple-typography('xs', 'medium');
+    
+    &.status-active {
+      background: var(--green-soft);
+      color: var(--green);
+    }
+    
+    &.status-archived {
+      background: var(--amber-soft);
+      color: var(--amber);
+    }
+  }
+  
+  // 苹果式删除按钮
+  .delete-btn {
+    @include apple-transition(all, 'fast', 'smooth');
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  
+  &:hover .delete-btn {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+// ========== 对话卡片 - 苹果交互设计 ==========
+
+.conversation-card {
+  @extend .card;
+  padding: spacing('md');
+  
+  display: flex;
+  flex-direction: column;
+  gap: spacing('sm');
+  
+  cursor: pointer;
+  
+  .conversation-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: spacing('sm');
+  }
+  
+  .conversation-title {
+    @include apple-typography('lg', 'semibold');
+    color: var(--text-1);
+    flex: 1;
+    
+    display: flex;
+    align-items: center;
+    gap: spacing('sm');
+    
+    @extend .truncate;
+    
+    svg, i {
+      width: 14px;
+      height: 14px;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+  }
+  
+  .conversation-time {
+    @include apple-typography('sm', 'normal');
+    color: var(--text-4);
+    white-space: nowrap;
+  }
+  
+  .conversation-meta {
+    display: flex;
+    align-items: center;
+    gap: spacing('md');
+    
+    @include apple-typography('base', 'normal');
+    color: var(--text-3);
+    
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      
+      svg, i {
+        width: 11px;
+        height: 11px;
+        opacity: 0.6;
+      }
+    }
+  }
+  
+  .conversation-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  
+  .conversation-preview {
+    @include apple-typography('base', 'normal');
+    color: var(--text-2);
+    line-height: 1.4;
+    
+    @extend .line-clamp-2;
+  }
+  
+  // 苹果式评分徽章
+  .score-badge {
+    @include apple-radius('sm');
+    @include apple-typography('sm', 'bold');
+    
+    padding: 2px 6px;
+    
+    background: var(--accent-gradient);
+    color: #fff;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+// ========== 分析卡片 - 苹果专业风格 ==========
+
+.analytics-card {
+  @extend .card;
+  padding: spacing('lg');
+  
+  position: relative;
+  overflow: hidden;
+  
+  // 苹果式渐变背景
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, 
+      rgba(132,116,247,0.03) 0%,
+      transparent 50%,
+      rgba(61,214,140,0.02) 100%
+    );
+    pointer-events: none;
+    opacity: 0;
+    @include apple-transition(opacity, 'normal', 'smooth');
+  }
+  
+  &:hover::before {
+    opacity: 1;
+  }
+  
+  .analytics-title {
+    @include apple-typography('base', 'medium');
+    color: var(--text-2);
+    margin-bottom: spacing('md');
+    
+    display: flex;
+    align-items: center;
+    gap: spacing('sm');
+    
+    svg, i {
+      width: 14px;
+      height: 14px;
+      color: var(--accent);
+    }
+  }
+  
+  .analytics-value {
+    @include apple-typography('5xl', 'bold');
+    color: var(--text-1);
+    margin-bottom: spacing('xs');
+    font-variant-numeric: tabular-nums;
+    
+    &.large {
+      font-size: 32px;
+    }
+    
+    &.small {
+      font-size: 18px;
+    }
+  }
+  
+  .analytics-subtitle {
+    @include apple-typography('sm', 'normal');
+    color: var(--text-4);
+  }
+  
+  .analytics-chart {
+    margin-top: spacing('md');
+    min-height: 120px;
+    position: relative;
+    
+    canvas {
+      width: 100% !important;
+      height: 100% !important;
+    }
+  }
+}
+
+// ========== 卡片布局 ==========
+
+.cards-grid {
+  display: grid;
+  gap: spacing('md');
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  
+  @include respond-down('md') {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  }
+  
+  @include respond-down('sm') {
+    grid-template-columns: 1fr;
+  }
+}
+
+.stats-grid {
+  display: grid;
+  gap: spacing('md');
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  
+  @include respond-down('sm') {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+// ========== 卡片状态变体 ==========
+
+.card-elevated {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-4px);
+}
+
+.card-selected {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.card-loading {
+  position: relative;
+  color: transparent;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255,255,255,0.05),
+      transparent
+    );
+    animation: shimmer 2s infinite;
+  }
+}
+
+.card-error {
+  border-color: var(--red-soft);
+  background: var(--red-soft);
+  
+  animation: errorShake 0.4s;
+}
+
+.card-success {
+  border-color: var(--green-soft);
+  background: var(--green-soft);
+  
+  animation: successPop 0.3s ease('spring');
+}
+
+// ========== 无障碍支持 ==========
+
+@media (prefers-contrast: high) {
+  .card {
+    border-width: 2px;
+  }
+  
+  .card-selected {
+    border-width: 3px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transition: none;
+    
+    &:hover {
+      transform: none;
+    }
+    
+    &::before,
+    &::after {
+      animation: none;
+    }
+  }
+}
+
+// ========== 苹果式卡片入场动画 ==========
+
+.card-enter {
+  animation: slideUp 0.3s ease('smooth');
+}
+
+.card-enter-delayed {
+  animation: slideUp 0.3s ease('smooth');
+  
+  @for $i from 1 through 10 {
+    &:nth-child(#{$i}) {
+      animation-delay: #{$i * 50ms};
+    }
+  }
+}

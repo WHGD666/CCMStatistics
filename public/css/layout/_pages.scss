@@ -1,0 +1,461 @@
+/* ============================================
+   页面布局系统 - 苹果式流畅切换
+   ============================================ */
+
+.main-content {
+  margin-left: 200px;
+  min-height: 100vh;
+  padding-top: 52px;
+  
+  display: flex;
+  flex-direction: column;
+  
+  @include respond-down('md') {
+    margin-left: 0;
+    padding-top: 52px;
+  }
+}
+
+.page-container {
+  padding: spacing('lg');
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+  
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--text-4) transparent;
+  
+  // 苹果式平滑滚动
+  scroll-behavior: smooth;
+  scroll-padding-top: 52px;
+  
+  @include respond-down('md') {
+    padding: spacing('md');
+  }
+  
+  @include respond-down('sm') {
+    padding: spacing('sm');
+  }
+}
+
+// ========== 页面标题系统 ==========
+
+.page-header {
+  margin-bottom: spacing('xl');
+  padding-bottom: spacing('lg');
+  border-bottom: 1px solid var(--border);
+  
+  .page-title {
+    @include apple-typography('4xl', 'bold');
+    color: var(--text-1);
+    letter-spacing: -0.4px;
+    margin-bottom: spacing('xs');
+    
+    display: flex;
+    align-items: center;
+    gap: spacing('md');
+    
+    svg, i {
+      width: 20px;
+      height: 20px;
+      color: var(--accent);
+    }
+    
+    .page-title-text {
+      flex: 1;
+    }
+    
+    .page-title-actions {
+      display: flex;
+      gap: spacing('sm');
+      
+      @include respond-down('sm') {
+        flex-direction: column;
+      }
+    }
+  }
+  
+  .page-subtitle {
+    @include apple-typography('lg', 'normal');
+    color: var(--text-2);
+    max-width: 600px;
+    
+    @extend .line-clamp-2;
+  }
+  
+  .page-meta {
+    @include apple-typography('base', 'normal');
+    color: var(--text-3);
+    
+    display: flex;
+    align-items: center;
+    gap: spacing('md');
+    margin-top: spacing('sm');
+    
+    span {
+      display: flex;
+      align-items: center;
+      gap: spacing('xs');
+      
+      svg, i {
+        width: 12px;
+        height: 12px;
+      }
+    }
+  }
+}
+
+// ========== 页面内容区 ==========
+
+.page-content {
+  display: flex;
+  flex-direction: column;
+  gap: spacing('lg');
+  
+  // 苹果式内容过渡
+  @include apple-transition(opacity, 'normal', 'smooth');
+  
+  &.page-loading {
+    opacity: 0.7;
+    pointer-events: none;
+    
+    // 加载指示器
+    &::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: rgba(12,12,16,0.5);
+      -webkit-backdrop-filter: blur(4px);
+      backdrop-filter: blur(4px);
+      z-index: z-index('modal');
+    }
+  }
+}
+
+// ========== 页面网格布局 ==========
+
+.page-grid {
+  display: grid;
+  gap: spacing('lg');
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  
+  @include respond-down('md') {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+  
+  @include respond-down('sm') {
+    grid-template-columns: 1fr;
+  }
+  
+  &.page-grid-wide {
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  }
+  
+  &.page-grid-narrow {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+}
+
+// ========== 页面双栏布局 ==========
+
+.page-two-column {
+  display: grid;
+  gap: spacing('xl');
+  grid-template-columns: 2fr 1fr;
+  
+  @include respond-down('lg') {
+    grid-template-columns: 1fr;
+  }
+  
+  .page-main-column {
+    min-width: 0;
+  }
+  
+  .page-side-column {
+    min-width: 0;
+  }
+}
+
+// ========== 页面三栏布局 ==========
+
+.page-three-column {
+  display: grid;
+  gap: spacing('xl');
+  grid-template-columns: 1fr 2fr 1fr;
+  
+  @include respond-down('lg') {
+    grid-template-columns: 1fr;
+  }
+  
+  .page-left-column,
+  .page-middle-column,
+  .page-right-column {
+    min-width: 0;
+  }
+}
+
+// ========== 页面布局变体 ==========
+
+.page-full-width {
+  max-width: none;
+  padding: spacing('xl');
+  
+  @include respond-down('md') {
+    padding: spacing('md');
+  }
+}
+
+.page-narrow {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.page-centered {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  
+  .page-centered-content {
+    text-align: center;
+    max-width: 600px;
+    padding: spacing('xl');
+    
+    @include apple-typography('lg', 'normal');
+    color: var(--text-2);
+    
+    // 苹果式居中图标
+    .centered-icon {
+      margin-bottom: spacing('lg');
+      
+      svg, i {
+        width: 64px;
+        height: 64px;
+        color: var(--text-3);
+      }
+    }
+    
+    .centered-title {
+      @include apple-typography('3xl', 'bold');
+      color: var(--text-1);
+      margin-bottom: spacing('md');
+    }
+    
+    .centered-text {
+      margin-bottom: spacing('lg');
+      line-height: 1.5;
+    }
+    
+    .centered-actions {
+      display: flex;
+      gap: spacing('sm');
+      justify-content: center;
+      
+      @include respond-down('sm') {
+        flex-direction: column;
+      }
+    }
+  }
+}
+
+// ========== 页面分隔线 ==========
+
+.page-divider {
+  height: 1px;
+  background: var(--border);
+  margin: spacing('xl') 0;
+  
+  &.page-divider-accent {
+    background: var(--accent-gradient);
+    height: 2px;
+  }
+  
+  &.page-divider-dotted {
+    background: repeating-linear-gradient(
+      to right,
+      var(--border) 0,
+      var(--border) 4px,
+      transparent 4px,
+      transparent 8px
+    );
+  }
+}
+
+// ========== 页面状态指示 ==========
+
+.page-status-bar {
+  @include apple-radius('md');
+  @include apple-typography('base', 'normal');
+  
+  padding: spacing('sm') spacing('md');
+  
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  
+  display: flex;
+  align-items: center;
+  gap: spacing('md');
+  
+  color: var(--text-2);
+  
+  .status-indicator {
+    display: flex;
+    align-items: center;
+    gap: spacing('xs');
+    
+    .status-dot {
+      animation: pulse 2s infinite;
+    }
+  }
+  
+  .status-actions {
+    display: flex;
+    gap: spacing('sm');
+    
+    margin-left: auto;
+  }
+}
+
+// ========== 页面加载状态 ==========
+
+.page-loader {
+  @include apple-flex-center;
+  
+  position: fixed;
+  inset: 0;
+  
+  background: rgba(12,12,16,0.7);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  
+  z-index: z-index('modal');
+  
+  .loader-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: spacing('lg');
+    
+    .loader-spinner {
+      width: 40px;
+      height: 40px;
+      
+      border: 3px solid var(--text-4);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      
+      animation: spin 0.6s linear infinite;
+    }
+    
+    .loader-text {
+      @include apple-typography('lg', 'medium');
+      color: var(--text-1);
+    }
+  }
+}
+
+// ========== 页面错误状态 ==========
+
+.page-error {
+  @extend .page-centered;
+  
+  .error-icon {
+    color: var(--red);
+  }
+  
+  .error-title {
+    color: var('red');
+  }
+  
+  .error-text {
+    color: var(--text-2);
+  }
+  
+  .error-actions {
+    .btn-primary {
+      background: var(--red);
+    }
+  }
+}
+
+// ========== 页面空状态 ==========
+
+.page-empty {
+  @extend .page-centered;
+  
+  .empty-icon {
+    opacity: 0.5;
+  }
+  
+  .empty-title {
+    color: var(--text-2);
+  }
+  
+  .empty-text {
+    color: var(--text-3);
+  }
+}
+
+// ========== 无障碍支持 ==========
+
+@media (prefers-reduced-motion: reduce) {
+  .page-container {
+    scroll-behavior: auto;
+  }
+  
+  .page-content,
+  .page-status-bar .status-dot {
+    transition: none;
+    animation: none;
+  }
+}
+
+// ========== 页面入场动画 ==========
+
+.page-enter {
+  animation: slideUp 0.4s ease('smooth');
+}
+
+.page-content-enter {
+  animation: fadeIn 0.3s ease('smooth');
+  
+  & > * {
+    animation: slideUp 0.3s ease('smooth');
+    
+    @for $i from 1 through 20 {
+      &:nth-child(#{$i}) {
+        animation-delay: #{$i * 30ms};
+      }
+    }
+  }
+}
+
+// ========== 苹果式页面切换效果 ==========
+
+.page-transition {
+  position: relative;
+  
+  .page-enter {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+  }
+  
+  .page-exit {
+    position: relative;
+    opacity: 1;
+  }
+  
+  &.transitioning {
+    .page-enter {
+      opacity: 1;
+      animation: slideUp 0.35s ease('smooth');
+    }
+    
+    .page-exit {
+      opacity: 0;
+      animation: fadeOut 0.15s ease('out');
+    }
+  }
+}

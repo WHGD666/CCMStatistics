@@ -1,0 +1,339 @@
+/* ============================================
+   设计系统变量 - 苹果风格标准
+   ============================================ */
+
+// ========== 颜色系统 ==========
+$color-systems: (
+  'dark': (
+    // 背景层级 - 模仿iOS/macOS深色模式
+    'bg-page': #0c0c10,
+    'bg-sidebar': #101014,
+    'bg-card': #16161a,
+    'bg-card-hover': #1c1c22,
+    'bg-elevated': #202028,
+    'bg-input': #121216,
+    'bg-topbar': rgba(12, 12, 16, 0.88),
+    
+    // 文字层级 - 苹果式清晰层次
+    'text-1': #ececf0,  // 主要文字
+    'text-2': #a0a0ac,  // 次要文字
+    'text-3': #62626e,  // 辅助文字
+    'text-4': #3a3a44,  // 极弱文字
+    
+    // 边框系统 - 精细边界
+    'border': rgba(255, 255, 255, 0.06),
+    'border-hover': rgba(255, 255, 255, 0.1),
+    'border-active': rgba(255, 255, 255, 0.14),
+    
+    // 主题色 - 苹果紫色调
+    'accent': #8474f7,
+    'accent-hover': #7464e8,
+    'accent-soft': rgba(132, 116, 247, 0.1),
+    'accent-glow': rgba(132, 116, 247, 0.25),
+    'accent-gradient': linear-gradient(135deg, #8474f7, #a78bfa),
+    
+    // 语义色 - 苹果标准色系
+    'green': #3dd68c,
+    'green-soft': rgba(61, 214, 140, 0.08),
+    'amber': #f5c542,
+    'amber-soft': rgba(245, 197, 66, 0.08),
+    'red': #ef4444,
+    'red-soft': rgba(239, 68, 68, 0.08),
+    'blue': #5b9cf6,
+    'blue-soft': rgba(91, 156, 246, 0.08),
+    
+    // 阴影系统 - 精致质感
+    'shadow-xs': 0 1px 2px rgba(0,0,0,0.25),
+    'shadow-sm': 0 2px 4px rgba(0,0,0,0.3),
+    'shadow-md': 0 4px 12px rgba(0,0,0,0.35),
+    'shadow-lg': 0 8px 28px rgba(0,0,0,0.45),
+    'shadow-xl': 0 16px 48px rgba(0,0,0,0.5),
+    'shadow-glow': 0 0 24px rgba(132, 116, 247, 0.12),
+    'shadow-card': "0 1px 3px rgba(0,0,0,0.2), 0 0 0 1px rgba(255,255,255,0.03)",
+    
+    // 特效
+    'card-shine': linear-gradient(135deg, rgba(255,255,255,0.03) 0%, transparent 50%),
+    'noise': url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E"),
+  ),
+  'light': (
+    'bg-page': #f4f4f6,
+    'bg-sidebar': #fafafc,
+    'bg-card': #ffffff,
+    'bg-card-hover': #f8f8fa,
+    'bg-elevated': #ffffff,
+    'bg-input': #ffffff,
+    'bg-topbar': rgba(244, 244, 246, 0.92),
+    
+    'text-1': #18181c,
+    'text-2': #5a5a68,
+    'text-3': #9090a0,
+    'text-4': #c0c0cc,
+    
+    'border': rgba(0, 0, 0, 0.07),
+    'border-hover': rgba(0, 0, 0, 0.12),
+    'border-active': rgba(0, 0, 0, 0.18),
+    
+    'accent': #6c5ce7,
+    'accent-hover': #5a4bd6,
+    'accent-soft': rgba(108, 92, 231, 0.06),
+    'accent-glow': rgba(108, 92, 231, 0.15),
+    'accent-gradient': linear-gradient(135deg, #6c5ce7, #8b7cf7),
+    
+    'green': #0d9488,
+    'green-soft': rgba(13, 148, 136, 0.06),
+    'amber': #d97706,
+    'amber-soft': rgba(217, 119, 6, 0.06),
+    'red': #dc2626,
+    'red-soft': rgba(220, 38, 38, 0.06),
+    'blue': #2563eb,
+    'blue-soft': rgba(37, 99, 235, 0.06),
+    
+    'shadow-xs': 0 1px 2px rgba(0,0,0,0.04),
+    'shadow-sm': "0 1px 3px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.03)",
+    'shadow-md': 0 4px 12px rgba(0,0,0,0.06),
+    'shadow-lg': 0 8px 24px rgba(0,0,0,0.08),
+    'shadow-xl': 0 16px 48px rgba(0,0,0,0.1),
+    'shadow-glow': 0 0 0 rgba(0,0,0,0),
+    'shadow-card': "0 1px 3px rgba(0,0,0,0.05), 0 0 0 1px rgba(0,0,0,0.04)",
+    
+    'card-shine': linear-gradient(135deg, rgba(255,255,255,0.8) 0%, transparent 50%),
+    'noise': none,
+  )
+);
+
+// ========== 间距系统 - 苹果标准 8pt Grid ==========
+$spacing-system: (
+  'xs': 4px,   // 极小间距
+  'sm': 8px,   // 小间距 - 苹果基础单位
+  'md': 16px,  // 中等间距
+  'lg': 24px,  // 大间距
+  'xl': 32px,  // 超大间距
+  '2xl': 48px, // 巨大间距
+);
+
+// ========== 圆角系统 - 苹果连续曲线 ==========
+$radius-system: (
+  'xs': 3px,
+  'sm': 6px,   // 苹果小型组件圆角
+  'md': 8px,   // 苹果标准圆角
+  'lg': 12px,  // 苹果大型组件圆角
+  'xl': 16px,  // 苹果卡片圆角
+  '2xl': 20px, // 苹果模态框圆角
+  'full': 9999px,
+);
+
+// ========== 字体系统 - 苹果设计规范 ==========
+$font-system: (
+  'sans': (-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif),
+  'mono': ('SF Mono', 'Cascadia Code', 'Fira Code', 'Consolas', monospace),
+  'display': ('Inter', -apple-system, BlinkMacSystemFont, sans-serif),
+);
+
+// 字体大小系统 - 苹果式精确控制
+$font-sizes: (
+  'xs': 10px,
+  'sm': 11px,
+  'base': 12px,
+  'md': 13px,
+  'lg': 14px,
+  'xl': 15px,
+  '2xl': 16px,
+  '3xl': 18px,
+  '4xl': 20px,
+  '5xl': 22px,
+);
+
+// 字重系统
+$font-weights: (
+  'light': 300,
+  'normal': 400,
+  'medium': 500,
+  'semibold': 600,
+  'bold': 700,
+  'extrabold': 800,
+);
+
+// ========== 动画系统 - 苹果式流畅过渡 ==========
+$transition-system: (
+  'fast': 120ms,
+  'normal': 200ms,
+  'slow': 350ms,
+  'modal': 400ms,
+);
+
+// 苹果式缓动函数
+$ease-system: (
+  'out': cubic-bezier(0.16, 1, 0.3, 1),      // 苹果退出动画
+  'in-out': cubic-bezier(0.65, 0, 0.35, 1),  // 苹果双向动画
+  'spring': cubic-bezier(0.34, 1.56, 0.64, 1), // 苹果弹簧动画
+  'smooth': cubic-bezier(0.4, 0, 0.2, 1),    // 苹果平滑过渡
+);
+
+// ========== Z-Index 层级系统 ==========
+$z-index-system: (
+  'base': 1,
+  'dropdown': 100,
+  'sticky': 200,
+  'modal': 300,
+  'popover': 400,
+  'tooltip': 500,
+  'top': 1000,
+);
+
+// ========== 响应式断点系统 ==========
+$breakpoints: (
+  'xs': 480px,
+  'sm': 640px,
+  'md': 768px,
+  'lg': 1024px,
+  'xl': 1280px,
+  '2xl': 1536px,
+);
+
+// ========== 组件尺寸系统 ==========
+$component-sizes: (
+  'button': (
+    'sm': (padding: 3px 8px, font-size: 11px),
+    'base': (padding: 6px 14px, font-size: 12px),
+    'lg': (padding: 8px 18px, font-size: 13px),
+  ),
+  'input': (
+    'sm': (padding: 5px 10px, font-size: 12px),
+    'base': (padding: 7px 12px, font-size: 13px),
+    'lg': (padding: 9px 14px, font-size: 14px),
+  ),
+  'card': (
+    'sm': (padding: 12px, radius: 8px),
+    'base': (padding: 16px, radius: 12px),
+    'lg': (padding: 20px, radius: 16px),
+  ),
+);
+
+// ========== Mixins - 苹果设计工具 ==========
+@mixin apple-typography($size: 'base', $weight: 'normal') {
+  font-family: map-get($font-system, 'sans');
+  font-size: map-get($font-sizes, $size);
+  font-weight: map-get($font-weights, $weight);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+@mixin apple-transition($property: all, $duration: 'normal', $ease: 'smooth') {
+  transition: $property map-get($transition-system, $duration) map-get($ease-system, $ease);
+}
+
+@mixin apple-shadow($level: 'sm') {
+  box-shadow: map-get(map-get($color-systems, 'dark'), 'shadow-#{$level}');
+}
+
+@mixin apple-radius($size: 'md') {
+  border-radius: map-get($radius-system, $size);
+}
+
+@mixin apple-flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin apple-glass-effect($opacity: 0.88) {
+  background: rgba(255, 255, 255, $opacity);
+  -webkit-backdrop-filter: blur(20px) saturate(1.8);
+  backdrop-filter: blur(20px) saturate(1.8);
+}
+
+@mixin apple-card-effect {
+  @include apple-shadow('card');
+  @include apple-radius('lg');
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  background-image: var(--card-shine);
+}
+
+@mixin apple-hover-effect {
+  @include apple-transition(all, 'fast', 'smooth');
+  
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--border-hover);
+  }
+  
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+@mixin apple-glow-effect($color: 'accent') {
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    background: linear-gradient(135deg, 
+      rgba(132,116,247,0.1) 0%,
+      transparent 40%,
+      transparent 60%,
+      rgba(61,214,140,0.05) 100%
+    );
+    pointer-events: none;
+    opacity: 0;
+    @include apple-transition(opacity, 'normal', 'smooth');
+  }
+  
+  &:hover::before {
+    opacity: 1;
+  }
+}
+
+@mixin respond-to($breakpoint) {
+  @if map-has-key($breakpoints, $breakpoint) {
+    @media (min-width: map-get($breakpoints, $breakpoint)) {
+      @content;
+    }
+  }
+}
+
+@mixin respond-down($breakpoint) {
+  @if map-has-key($breakpoints, $breakpoint) {
+    @media (max-width: map-get($breakpoints, $breakpoint) - 1px) {
+      @content;
+    }
+  }
+}
+
+// ========== 辅助函数 ==========
+@function spacing($key) {
+  @return map-get($spacing-system, $key);
+}
+
+@function radius($key) {
+  @return map-get($radius-system, $key);
+}
+
+@function font-size($key) {
+  @return map-get($font-sizes, $key);
+}
+
+@function font-weight($key) {
+  @return map-get($font-weights, $key);
+}
+
+@function transition($key) {
+  @return map-get($transition-system, $key);
+}
+
+@function ease($key) {
+  @return map-get($ease-system, $key);
+}
+
+@function z-index($key) {
+  @return map-get($z-index-system, $key);
+}
+
+@function breakpoint($key) {
+  @return map-get($breakpoints, $key);
+}

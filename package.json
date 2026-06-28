@@ -1,0 +1,21 @@
+{
+  "name": "ccmstatistics",
+  "version": "1.0.0",
+  "description": "Claude Code Monitoring Platform",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "build-css": "sass public/css/main.scss public/css/main.css --watch",
+    "compile-css": "sass public/css/main.scss public/css/main.css --style=compressed"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "multer": "^2.2.0",
+    "uuid": "^14.0.1"
+  },
+  "devDependencies": {
+    "sass": "^1.77.0"
+  }
+}

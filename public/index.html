@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CCMStatistics - Claude Code 监控平台</title>
+  <link rel="stylesheet" href="css/themes.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+  <!-- 侧边栏 -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">
+        <span class="logo-icon"><i data-lucide="zap"></i></span>
+        <span class="logo-text">CCMStats</span>
+      </div>
+      <button class="sidebar-toggle" id="sidebar-toggle">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section">
+        <div class="nav-section-title">主要功能</div>
+        <a href="#" class="nav-item active" data-page="dashboard">
+          <span class="nav-icon"><i data-lucide="bar-chart-3"></i></span>
+          <span class="nav-text">统计面板</span>
+        </a>
+        <a href="#" class="nav-item" data-page="analytics">
+          <span class="nav-icon"><i data-lucide="target"></i></span>
+          <span class="nav-text">数据大屏</span>
+        </a>
+        <a href="#" class="nav-item" data-page="projects">
+          <span class="nav-icon"><i data-lucide="folder"></i></span>
+          <span class="nav-text">项目管理</span>
+        </a>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-section-title">会话管理</div>
+        <a href="#" class="nav-item" data-page="conversations">
+          <span class="nav-icon"><i data-lucide="message-square"></i></span>
+          <span class="nav-text">对话列表</span>
+        </a>
+        <a href="#" class="nav-item" data-page="import">
+          <span class="nav-icon"><i data-lucide="download"></i></span>
+          <span class="nav-text">导入会话</span>
+        </a>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-section-title">系统</div>
+        <a href="#" class="nav-item" data-page="logs">
+          <span class="nav-icon"><i data-lucide="file-text"></i></span>
+          <span class="nav-text">操作日志</span>
+        </a>
+        <a href="#" class="nav-item" data-page="settings">
+          <span class="nav-icon"><i data-lucide="settings"></i></span>
+          <span class="nav-text">设置</span>
+        </a>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="theme-switcher">
+        <button class="theme-btn active" data-theme="dark" title="极客暗色"><i data-lucide="moon"></i></button>
+        <button class="theme-btn" data-theme="light" title="简洁白色"><i data-lucide="sun"></i></button>
+      </div>
+      <div class="version">v1.0.0</div>
+    </div>
+  </aside>
+
+  <!-- 主内容区 -->
+  <main class="main-content" id="main-content">
+    <!-- 顶部栏 -->
+    <header class="top-bar">
+      <div class="top-bar-left">
+        <button class="menu-btn" id="menu-btn"><span></span><span></span><span></span></button>
+        <div class="breadcrumb" id="breadcrumb"><span class="breadcrumb-item">统计面板</span></div>
+      </div>
+      <div class="top-bar-right">
+        <div class="search-box">
+          <span class="search-icon"><i data-lucide="search"></i></span>
+          <input type="text" placeholder="搜索对话标题、内容..." id="global-search">
+        </div>
+        <button class="action-btn" id="btn-import-quick" title="快速导入"><i data-lucide="download"></i></button>
+      </div>
+    </header>
+
+    <!-- 页面内容容器 -->
+    <div class="page-container" id="page-container">
+
+      <!-- ========== 统计面板 ========== -->
+      <div class="page active" id="page-dashboard">
+        <div class="page-header">
+          <h1>统计面板</h1>
+          <div class="page-actions">
+            <button class="btn btn-ghost" onclick="refreshDashboard()"><i data-lucide="refresh-cw"></i> 刷新</button>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card" data-animate="fade-up" data-delay="0">
+            <div class="stat-card-icon"><div class="icon-wrapper primary"><i data-lucide="message-square"></i></div></div>
+            <div class="stat-card-content">
+              <div class="stat-label">总对话数</div>
+              <div class="stat-value" id="stat-conversations">0</div>
+              <div class="stat-trend up"><i data-lucide="trending-up"></i> <span id="stat-conversations-trend">0%</span></div>
+            </div>
+          </div>
+          <div class="stat-card" data-animate="fade-up" data-delay="1">
+            <div class="stat-card-icon"><div class="icon-wrapper success"><i data-lucide="hash"></i></div></div>
+            <div class="stat-card-content">
+              <div class="stat-label">总 Token</div>
+              <div class="stat-value" id="stat-tokens">0</div>
+              <div class="stat-trend up"><i data-lucide="trending-up"></i> <span id="stat-tokens-trend">0%</span></div>
+            </div>
+          </div>
+          <div class="stat-card" data-animate="fade-up" data-delay="2">
+            <div class="stat-card-icon"><div class="icon-wrapper danger"><i data-lucide="dollar-sign"></i></div></div>
+            <div class="stat-card-content">
+              <div class="stat-label">总费用</div>
+              <div class="stat-value" id="stat-cost">$0</div>
+              <div class="stat-trend"><i data-lucide="minus"></i> <span id="stat-cost-note">所有对话累计</span></div>
+            </div>
+          </div>
+          <div class="stat-card" data-animate="fade-up" data-delay="3">
+            <div class="stat-card-icon"><div class="icon-wrapper warning"><i data-lucide="folder"></i></div></div>
+            <div class="stat-card-content">
+              <div class="stat-label">项目数</div>
+              <div class="stat-value" id="stat-projects">0</div>
+              <div class="stat-trend"><i data-lucide="minus"></i> <span>活跃项目</span></div>
+            </div>
+          </div>
+          <div class="stat-card" data-animate="fade-up" data-delay="4">
+            <div class="stat-card-icon"><div class="icon-wrapper info"><i data-lucide="star"></i></div></div>
+            <div class="stat-card-content">
+              <div class="stat-label">平均评分</div>
+              <div class="stat-value" id="stat-score">0</div>
+              <div class="stat-trend"><i data-lucide="minus"></i> <span>效率评分</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="charts-row">
+          <div class="chart-card" data-animate="fade-up" data-delay="5">
+            <div class="chart-card-header"><h3>Token 使用趋势</h3></div>
+            <div class="chart-card-body"><canvas id="chart-trend-mini"></canvas></div>
+          </div>
+          <div class="chart-card" data-animate="fade-up" data-delay="6">
+            <div class="chart-card-header"><h3>任务分布</h3></div>
+            <div class="chart-card-body"><canvas id="chart-task-mini"></canvas></div>
+          </div>
+        </div>
+
+        <div class="recent-section" data-animate="fade-up" data-delay="7">
+          <div class="section-header">
+            <h3>最近对话</h3>
+            <a href="#" class="link" onclick="navigateTo('conversations')">查看全部 <i data-lucide="arrow-right"></i></a>
+          </div>
+          <div class="recent-list" id="recent-conversations"></div>
+        </div>
+      </div>
+
+      <!-- ========== 数据大屏 ========== -->
+      <div class="page" id="page-analytics">
+        <div class="page-header">
+          <h1>数据大屏</h1>
+          <div class="page-actions">
+            <button class="btn btn-ghost" onclick="refreshAnalytics()"><i data-lucide="refresh-cw"></i> 刷新</button>
+            <a href="/dashboard.html" target="_blank" class="btn btn-primary"><i data-lucide="maximize-2"></i> 全屏大屏</a>
+          </div>
+        </div>
+
+        <!-- KPI 卡片行 -->
+        <div class="analytics-kpi-row">
+          <div class="analytics-kpi" data-color="red">
+            <div class="analytics-kpi-icon"><i data-lucide="dollar-sign"></i></div>
+            <div class="analytics-kpi-value" id="a-cost">$0</div>
+            <div class="analytics-kpi-label">总费用</div>
+          </div>
+          <div class="analytics-kpi" data-color="purple">
+            <div class="analytics-kpi-icon"><i data-lucide="hash"></i></div>
+            <div class="analytics-kpi-value" id="a-tokens">0</div>
+            <div class="analytics-kpi-label">总 Token</div>
+          </div>
+          <div class="analytics-kpi" data-color="blue">
+            <div class="analytics-kpi-icon"><i data-lucide="message-square"></i></div>
+            <div class="analytics-kpi-value" id="a-convos">0</div>
+            <div class="analytics-kpi-label">对话数</div>
+          </div>
+          <div class="analytics-kpi" data-color="green">
+            <div class="analytics-kpi-icon"><i data-lucide="folder"></i></div>
+            <div class="analytics-kpi-value" id="a-projects">0</div>
+            <div class="analytics-kpi-label">项目数</div>
+          </div>
+          <div class="analytics-kpi" data-color="amber">
+            <div class="analytics-kpi-icon"><i data-lucide="star"></i></div>
+            <div class="analytics-kpi-value" id="a-score">0</div>
+            <div class="analytics-kpi-label">平均评分</div>
+          </div>
+        </div>
+
+        <div class="analytics-grid">
+          <!-- 趋势图：跨整行 -->
+          <div class="analytics-card full-width">
+            <div class="analytics-card-header">
+              <h3>Token 使用趋势</h3>
+              <span class="analytics-card-tag">输入 / 输出</span>
+            </div>
+            <div class="analytics-card-body large"><canvas id="chart-trend-full"></canvas></div>
+          </div>
+
+          <!-- 模型分布 -->
+          <div class="analytics-card">
+            <div class="analytics-card-header"><h3>模型使用分布</h3></div>
+            <div class="analytics-card-body"><canvas id="chart-model"></canvas></div>
+          </div>
+
+          <!-- 任务分布 -->
+          <div class="analytics-card">
+            <div class="analytics-card-header"><h3>任务类型分布</h3></div>
+            <div class="analytics-card-body"><canvas id="chart-task-full"></canvas></div>
+          </div>
+
+          <!-- 热力图：跨整行 -->
+          <div class="analytics-card full-width">
+            <div class="analytics-card-header"><h3>每日活动</h3></div>
+            <div class="analytics-card-body heatmap-body"><div id="heatmap-container" class="heatmap"></div></div>
+          </div>
+
+          <!-- 费用分布 -->
+          <div class="analytics-card">
+            <div class="analytics-card-header"><h3>模型费用分布</h3></div>
+            <div class="analytics-card-body"><canvas id="chart-cost"></canvas></div>
+          </div>
+
+          <!-- 概览统计 -->
+          <div class="analytics-card">
+            <div class="analytics-card-header"><h3>概览</h3></div>
+            <div class="analytics-card-body">
+              <div class="analytics-overview" id="analytics-overview">
+                <div class="overview-item"><span class="overview-label"><span class="overview-label-dot" style="background:var(--accent)"></span>平均消息数</span><span class="overview-value" id="avg-response">0 msg</span></div>
+                <div class="overview-item"><span class="overview-label"><span class="overview-label-dot" style="background:var(--green)"></span>最常用模型</span><span class="overview-value" id="top-model">-</span></div>
+                <div class="overview-item"><span class="overview-label"><span class="overview-label-dot" style="background:var(--blue)"></span>近 7 天费用</span><span class="overview-value" id="recent-cost">-</span></div>
+                <div class="overview-item"><span class="overview-label"><span class="overview-label-dot" style="background:var(--amber)"></span>近 7 天 Token</span><span class="overview-value" id="recent-tokens">-</span></div>
+                <div class="overview-item"><span class="overview-label"><span class="overview-label-dot" style="background:var(--red)"></span>项目覆盖率</span><span class="overview-value" id="project-coverage">0%</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- TOP5：跨整行 -->
+          <div class="analytics-card full-width">
+            <div class="analytics-card-header"><h3>高效对话 TOP 5</h3></div>
+            <div class="analytics-card-body" style="height:auto;padding:12px 16px;">
+              <div id="top-conversations" class="top-list" style="display:grid;grid-template-columns:repeat(2,1fr);gap:4px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== 项目管理 ========== -->
+      <div class="page" id="page-projects">
+        <div class="page-header">
+          <h1>项目管理</h1>
+          <div class="page-actions">
+            <button class="btn btn-primary" onclick="openCreateProjectModal()"><i data-lucide="plus"></i> 创建项目</button>
+          </div>
+        </div>
+        <div class="projects-grid" id="projects-grid"></div>
+      </div>
+
+      <!-- ========== 对话列表 ========== -->
+      <div class="page" id="page-conversations">
+        <div class="page-header">
+          <h1>对话列表</h1>
+          <div class="page-actions">
+            <select class="filter-select" id="filter-project" aria-label="筛选项目"><option value="">所有项目</option></select>
+            <select class="filter-select" id="filter-model" aria-label="筛选模型"><option value="">所有模型</option></select>
+            <select class="filter-select" id="filter-task" aria-label="筛选任务类型">
+              <option value="">所有任务</option>
+              <option value="编码">编码</option>
+              <option value="分析">分析</option>
+              <option value="规划">规划</option>
+              <option value="执行">执行</option>
+              <option value="其他">其他</option>
+            </select>
+            <select class="filter-select" id="filter-sort" aria-label="排序方式" onchange="state.filters.sort=this.value;loadConversations()">
+              <option value="time">按时间排序</option>
+              <option value="cost">按费用排序</option>
+              <option value="tokens">按 Token 排序</option>
+              <option value="score">按评分排序</option>
+            </select>
+          </div>
+        </div>
+        <div class="conversations-container" id="conversations-container"></div>
+      </div>
+
+      <!-- ========== 导入会话 ========== -->
+      <div class="page" id="page-import">
+        <div class="page-header"><h1>导入会话</h1></div>
+
+        <div class="import-container">
+          <div class="import-card">
+            <div class="import-card-header">
+              <div class="import-icon-big"><i data-lucide="upload-cloud"></i></div>
+              <h3>导入 Claude Code 对话</h3>
+              <p>支持 Claude Code 导出的 .txt / .jsonl 文件，系统会自动检测模型并分析</p>
+            </div>
+
+            <div class="upload-zone" id="upload-zone">
+              <div class="upload-icon"><div class="upload-icon-wrapper"><i data-lucide="file-text"></i></div></div>
+              <div class="upload-text">拖拽文件到此处</div>
+              <div class="upload-hint">或点击选择文件</div>
+              <div class="upload-formats">支持 .txt, .log, .text, .jsonl, .json 格式</div>
+              <input type="file" id="file-input" accept=".txt,.log,.text,.jsonl,.json" style="display: none;">
+            </div>
+
+            <div class="file-preview" id="file-preview" style="display: none;">
+              <div class="file-preview-icon"><i data-lucide="file-text"></i></div>
+              <div class="file-preview-info">
+                <div class="file-preview-name" id="file-preview-name"></div>
+                <div class="file-preview-size" id="file-preview-size"></div>
+              </div>
+              <button class="btn btn-ghost btn-small" onclick="clearSelectedFile()"><i data-lucide="x"></i></button>
+            </div>
+
+            <div class="import-form" id="import-form" style="display: none;">
+              <div class="form-row">
+                <div class="form-group">
+                  <label>项目名称</label>
+                  <input type="text" id="auto-project-name" class="form-input" placeholder="根据文件名自动生成，可修改">
+                  <div class="form-hint">输入新名称将自动创建项目</div>
+                </div>
+                <div class="form-group">
+                  <label>或选择已有项目</label>
+                  <select id="import-project-select" class="form-select"><option value="">自动创建新项目</option></select>
+                </div>
+              </div>
+              <button class="btn btn-primary btn-block" onclick="startImport()" id="btn-start-import"><i data-lucide="download"></i> 开始导入</button>
+            </div>
+
+            <div class="import-tips">
+              <h4><i data-lucide="lightbulb"></i> 使用提示</h4>
+              <ul>
+                <li>在 Claude Code 中使用 <code>/export</code> 命令导出对话</li>
+                <li>系统会自动识别模型类型（Claude Opus / Sonnet / DeepSeek 等）</li>
+                <li>Token 优先使用 API 真实数据，无数据时按字符估算</li>
+                <li>支持自动识别任务类型：编码、分析、规划、执行</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== 操作日志 ========== -->
+      <div class="page" id="page-logs">
+        <div class="page-header">
+          <h1>操作日志</h1>
+          <div class="page-actions">
+            <button class="btn btn-ghost" onclick="clearLogs()"><i data-lucide="trash-2"></i> 清空日志</button>
+          </div>
+        </div>
+        <div class="logs-container">
+          <div class="logs-filter">
+            <button class="filter-btn active" data-level="all">全部</button>
+            <button class="filter-btn" data-level="info">信息</button>
+            <button class="filter-btn" data-level="success">成功</button>
+            <button class="filter-btn" data-level="warning">警告</button>
+            <button class="filter-btn" data-level="error">错误</button>
+          </div>
+          <div class="logs-list" id="logs-list"></div>
+        </div>
+      </div>
+
+      <!-- ========== 设置 ========== -->
+      <div class="page" id="page-settings">
+        <div class="page-header"><h1>设置</h1></div>
+        <div class="settings-container">
+          <div class="settings-section">
+            <h3><i data-lucide="palette"></i> 外观</h3>
+            <div class="setting-item">
+              <div class="setting-label">
+                <span class="setting-name">主题风格</span>
+                <span class="setting-desc">选择界面主题颜色</span>
+              </div>
+              <div class="setting-control">
+                <div class="theme-options">
+                  <button class="theme-option active" data-theme="dark">
+                    <span class="theme-preview dark-preview"></span><span>极客暗色</span>
+                  </button>
+                  <button class="theme-option" data-theme="light">
+                    <span class="theme-preview light-preview"></span><span>简洁白色</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="settings-section">
+            <h3><i data-lucide="database"></i> 数据</h3>
+            <div class="setting-item">
+              <div class="setting-label">
+                <span class="setting-name">Token 估算规则</span>
+                <span class="setting-desc">英文 4 字符 ≈ 1 token，中文 1 字 ≈ 2 token</span>
+              </div>
+              <div class="setting-control">
+                <label class="switch"><input type="checkbox" checked id="setting-token-estimate"><span class="slider"></span></label>
+              </div>
+            </div>
+            <div class="setting-item">
+              <div class="setting-label">
+                <span class="setting-name">自动保存</span>
+                <span class="setting-desc">导入后自动保存到本地 JSON 文件</span>
+              </div>
+              <div class="setting-control">
+                <label class="switch"><input type="checkbox" checked id="setting-auto-save"><span class="slider"></span></label>
+              </div>
+            </div>
+          </div>
+
+          <div class="settings-section">
+            <h3><i data-lucide="brain"></i> LLM 智能分析</h3>
+            <p class="setting-section-desc">接入 LLM API 后，摘要生成和优化建议将由 AI 驱动，质量大幅提升</p>
+
+            <div class="setting-item">
+              <div class="setting-label">
+                <span class="setting-name">启用 LLM</span>
+                <span class="setting-desc">开启后摘要和建议将使用 AI 生成</span>
+              </div>
+              <div class="setting-control">
+                <label class="switch"><input type="checkbox" id="llm-enabled"><span class="slider"></span></label>
+              </div>
+            </div>
+
+            <div class="setting-item">
+              <div class="setting-label">
+                <span class="setting-name">提供商</span>
+                <span class="setting-desc">选择 LLM 服务提供商</span>
+              </div>
+              <div class="setting-control">
+                <select id="llm-provider" class="form-select" onchange="onLLMProviderChange()">
+                  <option value="deepseek">DeepSeek</option>
+                  <option value="openai">OpenAI</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="setting-item">
+              <div class="setting-label">
+                <span class="setting-name">API Key</span>
+                <span class="setting-desc">输入你的 API Key</span>
+              </div>
+              <div class="setting-control llm-key-row">
+                <input type="password" id="llm-apikey" class="form-input" placeholder="sk-...">
+                <button class="btn btn-ghost btn-small" onclick="toggleLLMKeyVisibility()" title="显示/隐藏"><i data-lucide="eye"></i></button>
+              </div>
+            </div>
+
+            <div class="setting-item">
+              <div class="setting-label">
+                <span class="setting-name">API 地址</span>
+                <span class="setting-desc">自动填充，也可手动修改</span>
+              </div>
+              <div class="setting-control">
+                <input type="text" id="llm-baseurl" class="form-input" placeholder="https://api.deepseek.com/v1">
+              </div>
+            </div>
+
+            <div class="setting-item">
+              <div class="setting-label">
+                <span class="setting-name">模型</span>
+                <span class="setting-desc">选择使用的模型</span>
+              </div>
+              <div class="setting-control">
+                <select id="llm-model" class="form-select">
+                  <option value="deepseek-chat">deepseek-chat</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="setting-item">
+              <div class="setting-label">
+                <span class="setting-name">连接状态</span>
+                <span class="setting-desc" id="llm-status-text">未测试</span>
+              </div>
+              <div class="setting-control">
+                <button class="btn btn-ghost" onclick="testLLMConnection()" id="btn-test-llm"><i data-lucide="wifi"></i> 测试连接</button>
+                <button class="btn btn-primary" onclick="saveLLMConfig()"><i data-lucide="save"></i> 保存</button>
+              </div>
+            </div>
+
+            <div class="setting-item" id="llm-resummarize-section" style="display:none;">
+              <div class="setting-label">
+                <span class="setting-name">重新生成摘要</span>
+                <span class="setting-desc">使用 LLM 为所有已有对话重新生成结构化摘要</span>
+              </div>
+              <div class="setting-control">
+                <button class="btn btn-ghost" onclick="resummarizeAll()" id="btn-resummarize"><i data-lucide="refresh-cw"></i> 全部重新生成</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="settings-section">
+            <h3><i data-lucide="alert-triangle"></i> 危险操作</h3>
+            <div class="setting-item">
+              <div class="setting-label">
+                <span class="setting-name">清空所有数据</span>
+                <span class="setting-desc">删除所有对话、项目（不可恢复）</span>
+              </div>
+              <div class="setting-control">
+                <button class="btn btn-danger" onclick="confirmClearAll()"><i data-lucide="trash-2"></i> 清空数据</button>
+              </div>
+            </div>
+            <div class="setting-item">
+              <div class="setting-label">
+                <span class="setting-name">导出数据</span>
+                <span class="setting-desc">导出所有对话和项目为 JSON 备份文件</span>
+              </div>
+              <div class="setting-control">
+                <button class="btn btn-ghost" onclick="exportData()"><i data-lucide="download"></i> 导出</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="settings-section">
+            <h3><i data-lucide="tag"></i> 模型定价 ($/M tokens)</h3>
+            <div class="pricing-grid" id="pricing-grid"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- 创建项目模态框 -->
+  <div class="modal" id="create-project-modal">
+    <div class="modal-overlay"></div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>创建项目</h3>
+        <button class="modal-close" onclick="closeModal('create-project-modal')"><i data-lucide="x"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>项目名称 *</label>
+          <input type="text" id="project-name" placeholder="例如：我的Web项目">
+        </div>
+        <div class="form-group">
+          <label>项目路径</label>
+          <input type="text" id="project-path" placeholder="例如：C:\Users\...\my-project">
+        </div>
+        <div class="form-group">
+          <label>项目描述</label>
+          <textarea id="project-desc" placeholder="可选：简短描述项目内容"></textarea>
+        </div>
+        <div class="form-group">
+          <label>项目颜色</label>
+          <div class="color-picker">
+            <button class="color-option active" data-color="#6366f1" style="background:#6366f1"></button>
+            <button class="color-option" data-color="#10b981" style="background:#10b981"></button>
+            <button class="color-option" data-color="#f59e0b" style="background:#f59e0b"></button>
+            <button class="color-option" data-color="#ef4444" style="background:#ef4444"></button>
+            <button class="color-option" data-color="#8b5cf6" style="background:#8b5cf6"></button>
+            <button class="color-option" data-color="#06b6d4" style="background:#06b6d4"></button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" onclick="closeModal('create-project-modal')">取消</button>
+        <button class="btn btn-primary" onclick="createProject()">创建项目</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 对话详情模态框 -->
+  <div class="modal" id="conversation-modal">
+    <div class="modal-overlay"></div>
+    <div class="modal-content modal-large">
+      <div class="modal-header">
+        <h3 id="conversation-modal-title">对话详情</h3>
+        <button class="modal-close" onclick="closeModal('conversation-modal')"><i data-lucide="x"></i></button>
+      </div>
+      <div class="modal-body" id="conversation-modal-body">
+        <div class="conversation-stats" id="conversation-stats"></div>
+        <div class="conversation-messages" id="conversation-messages"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 确认对话框 -->
+  <div class="modal" id="confirm-modal">
+    <div class="modal-overlay"></div>
+    <div class="modal-content modal-small">
+      <div class="modal-header">
+        <h3 id="confirm-title">确认操作</h3>
+        <button class="modal-close" onclick="closeModal('confirm-modal')"><i data-lucide="x"></i></button>
+      </div>
+      <div class="modal-body"><p id="confirm-message"></p></div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" onclick="closeModal('confirm-modal')">取消</button>
+        <button class="btn btn-danger" id="confirm-action">确认</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast 提示 -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <script src="js/app.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/projects.js"></script>
+  <script>lucide.createIcons();</script>
+</body>
+</html>

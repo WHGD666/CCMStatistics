@@ -1,0 +1,451 @@
+/* ============================================
+   视觉增强系统 - 苹果精致质感
+   ============================================ */
+
+// ========== 毛玻璃效果增强 ==========
+
+// 苹果式毛玻璃变体
+.glass-light {
+  background: rgba(255,255,255,0.75);
+  -webkit-backdrop-filter: blur(20px) saturate(1.8);
+  backdrop-filter: blur(20px) saturate(1.8);
+}
+
+.glass-medium {
+  background: rgba(255,255,255,0.88);
+  -webkit-backdrop-filter: blur(30px) saturate(2.0);
+  backdrop-filter: blur(30px) saturate(2.0);
+}
+
+.glass-strong {
+  background: rgba(255,255,255,0.95);
+  -webkit-backdrop-filter: blur(40px) saturate(2.5);
+  backdrop-filter: blur(40px) saturate(2.5);
+}
+
+.glass-dark {
+  background: rgba(0,0,0,0.75);
+  -webkit-backdrop-filter: blur(20px) saturate(1.8);
+  backdrop-filter: blur(20px) saturate(1.8);
+}
+
+// ========== 精致光泽效果 ==========
+
+// 苹果式高光层
+.shine-layer {
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(255,255,255,0.15) 0%,
+      rgba(255,255,255,0.05) 30%,
+      transparent 50%
+    );
+    pointer-events: none;
+    z-index: 1;
+  }
+}
+
+// 苹果式微妙光泽
+.subtle-shine {
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: linear-gradient(
+      180deg,
+      rgba(255,255,255,0.08) 0%,
+      transparent 100%
+    );
+    pointer-events: none;
+    border-radius: inherit;
+  }
+}
+
+// ========== 精致渐变系统 ==========
+
+// 苹果式主题渐变
+.gradient-accent {
+  background: linear-gradient(135deg, 
+    var(--accent) 0%,
+    rgba(167,139,250,0.8) 100%
+  );
+}
+
+.gradient-accent-subtle {
+  background: linear-gradient(135deg, 
+    rgba(132,116,247,0.15) 0%,
+    rgba(167,139,250,0.08) 100%
+  );
+}
+
+.gradient-success {
+  background: linear-gradient(135deg, 
+    var(--green) 0%,
+    rgba(44,192,122,0.8) 100%
+  );
+}
+
+.gradient-warning {
+  background: linear-gradient(135deg, 
+    var(--amber) 0%,
+    rgba(212,166,51,0.8) 100%
+  );
+}
+
+.gradient-danger {
+  background: linear-gradient(135deg, 
+    var(--red) 0%,
+    rgba(220,38,38,0.8) 100%
+  );
+}
+
+// 苹果式流动渐变
+.gradient-flowing {
+  background: linear-gradient(
+    270deg,
+    var(--accent),
+    var(--green),
+    var(--blue)
+  );
+  background-size: 200% 200%;
+  animation: gradientFlow 8s ease infinite;
+}
+
+// ========== 精致纹理系统 ==========
+
+// 苹果式噪点纹理
+.noise-texture {
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    opacity: 0.5;
+    z-index: 0;
+  }
+}
+
+// 苹果式微妙纹理
+.subtle-texture {
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+// ========== 精致阴影系统 ==========
+
+// 苹果式层次阴影
+.shadow-layered {
+  box-shadow: 
+    0 1px 1px rgba(0,0,0,0.12),
+    0 2px 2px rgba(0,0,0,0.12),
+    0 4px 4px rgba(0,0,0,0.12),
+    0 8px 8px rgba(0,0,0,0.12),
+    0 16px 16px rgba(0,0,0,0.12);
+}
+
+// 苹果式柔和阴影
+.shadow-soft {
+  box-shadow: 
+    0 4px 6px rgba(0,0,0,0.1),
+    0 10px 20px rgba(0,0,0,0.15),
+    0 20px 40px rgba(0,0,0,0.1);
+}
+
+// 苹果式彩色阴影
+.shadow-accent {
+  box-shadow: 
+    0 4px 20px rgba(132,116,247,0.25),
+    0 8px 40px rgba(132,116,247,0.15);
+}
+
+.shadow-success {
+  box-shadow: 
+    0 4px 20px rgba(61,214,140,0.25),
+    0 8px 40px rgba(61,214,140,0.15);
+}
+
+// ========== 精精致边框效果 ==========
+
+// 苹果式光晕边框
+.border-glow {
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    background: linear-gradient(135deg, 
+      var(--accent) 0%,
+      rgba(167,139,250,0.5) 100%
+    );
+    opacity: 0;
+    z-index: -1;
+    transition: opacity 0.2s;
+  }
+  
+  &:hover::before {
+    opacity: 0.3;
+  }
+}
+
+// 苹果式渐变边框
+.border-gradient {
+  border: 1px solid transparent;
+  background: 
+    linear-gradient(var(--bg-card), var(--bg-card)) padding-box,
+    linear-gradient(135deg, var(--accent), rgba(167,139,250,0.5)) border-box;
+}
+
+// 苹果式发光边框
+.border-shimmer {
+  position: relative;
+  overflow: hidden;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.1);
+    animation: shimmer 3s infinite;
+    pointer-events: none;
+  }
+}
+
+// ========== 精致交互反馈 ==========
+
+// 苹果式悬停反馈
+.hover-ripple {
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(
+      circle at center,
+      rgba(255,255,255,0.1) 0%,
+      transparent 70%
+    );
+    opacity: 0;
+    transform: scale(0);
+    transition: all 0.3s;
+  }
+  
+  &:hover::before {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+// 苹果式点击反馈
+.click-ripple {
+  position: relative;
+  overflow: hidden;
+  
+  .ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    transform: scale(0);
+    animation: ripple 0.6s linear;
+    pointer-events: none;
+  }
+}
+
+@keyframes ripple {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+// ========== 精致动画增强 ==========
+
+// 苹果式弹性动画
+.animation-spring {
+  animation: bounceIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+// 苹果式缓动动画
+.animation-smooth {
+  animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+// 苹果式悬浮动画
+.animation-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+// 苹果式呼吸动画
+.animation-breathe {
+  animation: breathe 4s ease-in-out infinite;
+}
+
+@keyframes breathe {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
+}
+
+// ========== 精致过渡效果 ==========
+
+// 苹果式平滑过渡
+.transition-smooth {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+// 苹果式弹性过渡
+.transition-spring {
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+// 苹果式延迟过渡
+.transition-delayed {
+  transition-delay: 0.15s;
+}
+
+// ========== 精致视觉层次 ==========
+
+// 苹果式深度层次
+.depth-1 {
+  transform: translateZ(10px);
+  box-shadow: var(--shadow-sm);
+}
+
+.depth-2 {
+  transform: translateZ(20px);
+  box-shadow: var(--shadow-md);
+}
+
+.depth-3 {
+  transform: translateZ(30px);
+  box-shadow: var(--shadow-lg);
+}
+
+// 苹果式堆叠效果
+.stacked {
+  position: relative;
+  
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--bg-card);
+    border-radius: inherit;
+    box-shadow: var(--shadow-sm);
+    z-index: -1;
+  }
+  
+  &::before {
+    transform: translate(-4px, -4px);
+    opacity: 0.7;
+  }
+  
+  &::after {
+    transform: translate(-8px, -8px);
+    opacity: 0.4;
+  }
+}
+
+// ========== 苹果式图标增强 ==========
+
+.icon-enhanced {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  
+  // 苹果式图标阴影
+  svg, i {
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+  }
+  
+  // 苹果式图标光晕
+  &.icon-glow svg,
+  &.icon-glow i {
+    filter: drop-shadow(0 0 12px rgba(132,116,247,0.4));
+  }
+}
+
+// ========== 苹果式状态指示 ==========
+
+.status-indicator {
+  position: relative;
+  
+  .status-ring {
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    
+    animation: rotateRing 3s linear infinite;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+      top: 50%;
+      transform: translateY(-50%);
+      box-shadow: 0 0 12px var(--accent);
+    }
+  }
+}
+
+@keyframes rotateRing {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// ========== 无障碍优化 ==========
+
+@media (prefers-reduced-motion: reduce) {
+  .gradient-flowing,
+  .animation-float,
+  .animation-breathe,
+  .status-indicator .status-ring {
+    animation: none;
+  }
+  
+  .glass-light,
+  .glass-medium,
+  .glass-strong,
+  .glass-dark {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}

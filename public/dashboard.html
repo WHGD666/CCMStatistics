@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CCMStatistics 数据监控中心</title>
+  <link rel="stylesheet" href="css/dashboard.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+  <!-- 加载条 -->
+  <div class="loading-bar" id="loading-bar"></div>
+
+  <div class="dashboard">
+
+    <!-- ===== 头部 ===== -->
+    <header class="dash-header">
+      <div class="dash-header-left">
+        <div class="dash-logo">
+          <div class="dash-logo-icon">◆</div>
+          <div>
+            <div class="dash-title">CCMSTATISTICS 数据监控中心</div>
+            <div class="dash-subtitle">Claude Code Usage Monitor</div>
+          </div>
+        </div>
+      </div>
+      <div class="dash-header-right">
+        <a href="/" class="dash-back">← 返回主站</a>
+        <div class="dash-status">
+          <div class="dash-status-dot"></div>
+          <span>在线</span>
+        </div>
+        <div>
+          <div class="dash-clock" id="dash-clock">--:--:--</div>
+          <div class="dash-clock-date" id="dash-date">----/--/--</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ===== KPI 行 ===== -->
+    <div class="kpi-row">
+      <div class="kpi-card">
+        <div class="kpi-glow"></div>
+        <div class="kpi-label">总费用</div>
+        <div class="kpi-value blue" id="kpi-cost">$0</div>
+        <div class="kpi-sub">累计所有对话</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-glow"></div>
+        <div class="kpi-label">总 Token</div>
+        <div class="kpi-value cyan" id="kpi-tokens">0</div>
+        <div class="kpi-sub">输入 + 输出</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-glow"></div>
+        <div class="kpi-label">对话数</div>
+        <div class="kpi-value green" id="kpi-convos">0</div>
+        <div class="kpi-sub">已导入会话</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-glow"></div>
+        <div class="kpi-label">项目数</div>
+        <div class="kpi-value purple" id="kpi-projects">0</div>
+        <div class="kpi-sub">活跃项目</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-glow"></div>
+        <div class="kpi-label">平均评分</div>
+        <div class="kpi-value gold" id="kpi-score">0</div>
+        <div class="kpi-sub">效率评分</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-glow"></div>
+        <div class="kpi-label">7日费用</div>
+        <div class="kpi-value orange" id="kpi-recent-cost">$0</div>
+        <div class="kpi-sub" id="kpi-recent-sub">近7天</div>
+      </div>
+    </div>
+
+    <!-- ===== 主图表区 ===== -->
+    <div class="chart-grid">
+      <!-- 左上：Token 趋势 -->
+      <div class="dash-card">
+        <div class="dash-card-header">
+          <div class="dash-card-title">Token 使用趋势</div>
+          <span class="dash-card-tag">输入 / 输出</span>
+        </div>
+        <div class="dash-card-body">
+          <canvas id="chart-trend"></canvas>
+        </div>
+      </div>
+
+      <!-- 右上：模型分布 -->
+      <div class="dash-card">
+        <div class="dash-card-header">
+          <div class="dash-card-title">模型使用分布</div>
+          <span class="dash-card-tag">按对话数</span>
+        </div>
+        <div class="dash-card-body">
+          <canvas id="chart-model"></canvas>
+        </div>
+      </div>
+
+      <!-- 左下：任务分布 -->
+      <div class="dash-card">
+        <div class="dash-card-header">
+          <div class="dash-card-title">任务类型分布</div>
+          <span class="dash-card-tag">编码/分析/规划/执行</span>
+        </div>
+        <div class="dash-card-body">
+          <canvas id="chart-task"></canvas>
+        </div>
+      </div>
+
+      <!-- 右下：项目费用排行 -->
+      <div class="dash-card">
+        <div class="dash-card-header">
+          <div class="dash-card-title">项目活跃度排行</div>
+          <span class="dash-card-tag">TOP 8</span>
+        </div>
+        <div class="dash-card-body">
+          <div class="cost-bar-list" id="cost-bar-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 底部行 ===== -->
+    <div class="chart-grid-bottom">
+      <!-- 热力图 -->
+      <div class="dash-card">
+        <div class="dash-card-header">
+          <div class="dash-card-title">每日活动热力图</div>
+          <span class="dash-card-tag">近16周</span>
+        </div>
+        <div class="dash-card-body heatmap-wrap">
+          <div id="heatmap-container"></div>
+        </div>
+      </div>
+
+      <!-- TOP 5 -->
+      <div class="dash-card">
+        <div class="dash-card-header">
+          <div class="dash-card-title">高效对话 TOP 5</div>
+          <span class="dash-card-tag">按评分</span>
+        </div>
+        <div class="dash-card-body">
+          <div class="top-list" id="top-list"></div>
+        </div>
+      </div>
+
+      <!-- 概览 -->
+      <div class="dash-card">
+        <div class="dash-card-header">
+          <div class="dash-card-title">实时概览</div>
+          <span class="dash-card-tag">自动刷新</span>
+        </div>
+        <div class="dash-card-body">
+          <div class="overview-list" id="overview-list"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,269 @@
+/* ============================================
+   主样式文件 - 苹果设计系统整合
+   ============================================ */
+
+// ========== 导入核心模块 ==========
+
+@import 'core/variables';      // 设计变量系统
+@import 'core/base';           // 基础样式
+@import 'core/animations';     // 动画系统
+
+// ========== 导入组件模块 ==========
+
+@import 'components/buttons';  // 按钮系统
+@import 'components/cards';    // 卡片组件
+@import 'components/tags';     // 标签系统
+@import 'components/forms';    // 表单组件
+
+// ========== 导入布局模块 ==========
+
+@import 'layout/sidebar';      // 侧边栏
+@import 'layout/topbar';       // 顶部导航
+@import 'layout/pages';        // 页面布局
+
+// ========== 导入视觉增强模块 ==========
+
+@import 'visual-enhancements';  // 苹果精致视觉效果
+
+// ========== 全局样式应用 ==========
+
+// 主题变量应用
+:root {
+  // 深色主题（默认）
+  @each $key, $value in map-get($color-systems, 'dark') {
+    --#{$key}: $value;
+  }
+}
+
+[data-theme="light"] {
+  @each $key, $value in map-get($color-systems, 'light') {
+    --#{$key}: $value;
+  }
+}
+
+// ========== 工具类 ==========
+
+// 文字颜色
+.text-1 { color: var(--text-1); }
+.text-2 { color: var(--text-2); }
+.text-3 { color: var(--text-3); }
+.text-4 { color: var(--text-4); }
+.text-accent { color: var(--accent); }
+.text-green { color: var(--green); }
+.text-red { color: var(--red); }
+.text-amber { color: var(--amber); }
+.text-blue { color: var(--blue); }
+
+// 背景颜色
+.bg-page { background: var(--bg-page); }
+.bg-sidebar { background: var(--bg-sidebar); }
+.bg-card { background: var(--bg-card); }
+.bg-elevated { background: var(--bg-elevated); }
+.bg-accent { background: var(--accent); }
+.bg-accent-soft { background: var(--accent-soft); }
+
+// 间距工具
+.m-xs { margin: spacing('xs'); }
+.m-sm { margin: spacing('sm'); }
+.m-md { margin: spacing('md'); }
+.m-lg { margin: spacing('lg'); }
+.m-xl { margin: spacing('xl'); }
+
+.p-xs { padding: spacing('xs'); }
+.p-sm { padding: spacing('sm'); }
+.p-md { padding: spacing('md'); }
+.p-lg { padding: spacing('lg'); }
+.p-xl { padding: spacing('xl'); }
+
+// 显示隐藏
+.hidden { display: none !important; }
+.visible { visibility: visible !important; }
+.invisible { visibility: hidden !important; }
+
+// Flex布局工具
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.flex-row { flex-direction: row; }
+.flex-center { @include apple-flex-center; }
+.flex-1 { flex: 1; }
+.flex-auto { flex: auto; }
+.flex-none { flex: none; }
+
+.items-start { align-items: flex-start; }
+.items-center { align-items: center; }
+.items-end { align-items: flex-end; }
+.items-stretch { align-items: stretch; }
+
+.justify-start { justify-content: flex-start; }
+.justify-center { justify-content: center; }
+.justify-end { justify-content: flex-end; }
+.justify-between { justify-content: space-between; }
+.justify-around { justify-content: space-around; }
+
+.gap-xs { gap: spacing('xs'); }
+.gap-sm { gap: spacing('sm'); }
+.gap-md { gap: spacing('md'); }
+.gap-lg { gap: spacing('lg'); }
+.gap-xl { gap: spacing('xl'); }
+
+// Grid布局工具
+.grid { display: grid; }
+.grid-cols-1 { grid-template-columns: repeat(1, 1fr); }
+.grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
+.grid-cols-auto { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); }
+
+// 圆角工具
+.rounded-xs { border-radius: radius('xs'); }
+.rounded-sm { border-radius: radius('sm'); }
+.rounded-md { border-radius: radius('md'); }
+.rounded-lg { border-radius: radius('lg'); }
+.rounded-xl { border-radius: radius('xl'); }
+.rounded-full { border-radius: radius('full'); }
+
+// 阴影工具
+.shadow-xs { box-shadow: var(--shadow-xs); }
+.shadow-sm { box-shadow: var(--shadow-sm); }
+.shadow-md { box-shadow: var(--shadow-md); }
+.shadow-lg { box-shadow: var(--shadow-lg); }
+.shadow-xl { box-shadow: var(--shadow-xl); }
+.shadow-none { box-shadow: none; }
+
+// 边框工具
+.border { border: 1px solid var(--border); }
+.border-0 { border: none; }
+.border-t { border-top: 1px solid var(--border); }
+.border-b { border-bottom: 1px solid var(--border); }
+.border-l { border-left: 1px solid var(--border); }
+.border-r { border-right: 1px solid var(--border); }
+
+// 透明度
+.opacity-0 { opacity: 0; }
+.opacity-25 { opacity: 0.25; }
+.opacity-50 { opacity: 0.5; }
+.opacity-75 { opacity: 0.75; }
+.opacity-100 { opacity: 1; }
+
+// 定位
+.relative { position: relative; }
+.absolute { position: absolute; }
+.fixed { position: fixed; }
+.sticky { position: sticky; }
+
+// 尺寸
+.w-full { width: 100%; }
+.w-auto { width: auto; }
+.w-screen { width: 100vw; }
+.h-full { height: 100%; }
+.h-auto { height: auto; }
+.h-screen { height: 100vh; }
+.min-w-0 { min-width: 0; }
+.min-h-0 { min-height: 0; }
+
+// 文字处理
+.truncate { @extend .truncate; }
+.line-clamp-2 { @extend .line-clamp-2; }
+.line-clamp-3 { @extend .line-clamp-3; }
+.whitespace-normal { white-space: normal; }
+.whitespace-nowrap { white-space: nowrap; }
+.whitespace-pre { white-space: pre; }
+
+// 交互状态
+.pointer-events-none { pointer-events: none; }
+.pointer-events-auto { pointer-events: auto; }
+.cursor-pointer { cursor: pointer; }
+.cursor-default { cursor: default; }
+.cursor-not-allowed { cursor: not-allowed; }
+
+.select-none { user-select: none; }
+.select-text { user-select: text; }
+.select-all { user-select: all; }
+
+// 滚动
+.scroll-auto { scroll-behavior: auto; }
+.scroll-smooth { scroll-behavior: smooth; }
+.overflow-auto { overflow: auto; }
+.overflow-hidden { overflow: hidden; }
+.overflow-visible { overflow: visible; }
+.overflow-x-auto { overflow-x: auto; }
+.overflow-y-auto { overflow-y: auto; }
+
+// 响应式工具类
+@each $breakpoint, $size in $breakpoints {
+  @include respond-down($breakpoint) {
+    .hidden-#{$breakpoint} {
+      display: none !important;
+    }
+    
+    .block-#{$breakpoint} {
+      display: block !important;
+    }
+    
+    .flex-#{$breakpoint} {
+      display: flex !important;
+    }
+    
+    .grid-#{$breakpoint} {
+      display: grid !important;
+    }
+  }
+}
+
+// ========== 最后的优化 ==========
+
+// 确保所有动画在GPU加速层上执行
+.animated-element {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+// 无障碍模式下的全局优化
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-delay: 0ms !important;
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+// 高对比度模式优化
+@media (prefers-contrast: high) {
+  * {
+    border-width: 2px;
+  }
+  
+  .btn,
+  .card,
+  .input {
+    border-width: 3px;
+  }
+}
+
+// 打印优化
+@media print {
+  .sidebar,
+  .top-bar,
+  .page-actions,
+  .btn {
+    display: none !important;
+  }
+  
+  body {
+    background: white;
+    color: black;
+  }
+  
+  .main-content {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .card {
+    box-shadow: none;
+    border: 1px solid #ccc;
+    background: white;
+  }
+}

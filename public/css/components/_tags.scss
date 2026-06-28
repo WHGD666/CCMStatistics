@@ -1,0 +1,438 @@
+/* ============================================
+   标签系统 - 苹果精致风格
+   ============================================ */
+
+// ========== 标签基础 ==========
+
+.tag {
+  @include apple-typography('sm', 'medium');
+  @include apple-radius('sm');
+  @include apple-transition(all, 'fast', 'smooth');
+  
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  
+  padding: 3px 6px;
+  
+  white-space: nowrap;
+  vertical-align: middle;
+  
+  svg, i {
+    width: 10px;
+    height: 10px;
+    flex-shrink: 0;
+  }
+}
+
+// ========== 默认标签 ==========
+
+.tag-default {
+  background: var(--bg-elevated);
+  color: var(--text-2);
+  border: 1px solid var(--border);
+  
+  &:hover {
+    background: var(--bg-card-hover);
+    color: var(--text-1);
+    border-color: var(--border-hover);
+  }
+}
+
+// ========== 主色调标签 ==========
+
+.tag-accent {
+  background: var(--accent-soft);
+  color: var(--accent);
+  border: 1px solid transparent;
+  
+  &:hover {
+    background: rgba(132,116,247,0.12);
+    border-color: rgba(132,116,247,0.2);
+  }
+}
+
+// ========== 模型标签 - 苹果式分类 ==========
+
+.tag-model {
+  background: var(--blue-soft);
+  color: var(--blue);
+  border: 1px solid transparent;
+  
+  &:hover {
+    background: rgba(91,156,246,0.12);
+    border-color: rgba(91,156,246,0.2);
+  }
+  
+  // 苹果式图标前缀
+  &::before {
+    content: '🤖';
+    font-size: 9px;
+    margin-right: 2px;
+  }
+}
+
+// ========== 费用标签 ==========
+
+.tag-cost {
+  background: var(--amber-soft);
+  color: var(--amber);
+  border: 1px solid transparent;
+  
+  &:hover {
+    background: rgba(245,197,66,0.12);
+    border-color: rgba(245,197,66,0.2);
+  }
+  
+  // 苹果式图标前缀
+  &::before {
+    content: '💰';
+    font-size: 9px;
+    margin-right: 2px;
+  }
+}
+
+// ========== Token 标签 ==========
+
+.tag-token {
+  background: var(--green-soft);
+  color: var(--green);
+  border: 1px solid transparent;
+  
+  &:hover {
+    background: rgba(61,214,140,0.12);
+    border-color: rgba(61,214,140,0.2);
+  }
+}
+
+// ========== 任务类型标签 - 苹果色系 ==========
+
+.tag-task-coding {
+  background: rgba(88,166,255,0.08);
+  color: #58a6ff;
+  border: 1px solid rgba(88,166,255,0.15);
+  
+  &:hover {
+    background: rgba(88,166,255,0.12);
+    border-color: rgba(88,166,255,0.25);
+  }
+}
+
+.tag-task-analysis {
+  background: rgba(63,185,80,0.08);
+  color: #3fb950;
+  border: 1px solid rgba(63,185,80,0.15);
+  
+  &:hover {
+    background: rgba(63,185,80,0.12);
+    border-color: rgba(63,185,80,0.25);
+  }
+}
+
+.tag-task-planning {
+  background: rgba(160,110,255,0.08);
+  color: #a06eff;
+  border: 1px solid rgba(160,110,255,0.15);
+  
+  &:hover {
+    background: rgba(160,110,255,0.12);
+    border-color: rgba(160,110,255,0.25);
+  }
+}
+
+.tag-task-execution {
+  background: rgba(255,123,114,0.08);
+  color: #ff7b72;
+  border: 1px solid rgba(255,123,114,0.15);
+  
+  &:hover {
+    background: rgba(255,123,114,0.12);
+    border-color: rgba(255,123,114,0.25);
+  }
+}
+
+// ========== 状态标签 ==========
+
+.tag-success {
+  background: var(--green-soft);
+  color: var(--green);
+  border: 1px solid rgba(61,214,140,0.2);
+  
+  &:hover {
+    background: rgba(61,214,140,0.12);
+  }
+}
+
+.tag-warning {
+  background: var(--amber-soft);
+  color: var(--amber);
+  border: 1px solid rgba(245,197,66,0.2);
+  
+  &:hover {
+    background: rgba(245,197,66,0.12);
+  }
+}
+
+.tag-error {
+  background: var(--red-soft);
+  color: var(--red);
+  border: 1px solid rgba(239,68,68,0.2);
+  
+  &:hover {
+    background: rgba(239,68,68,0.12);
+  }
+}
+
+// ========== 标签尺寸变体 ==========
+
+.tag-xs {
+  padding: 1px 4px;
+  font-size: 9px;
+  
+  svg, i {
+    width: 8px;
+    height: 8px;
+  }
+}
+
+.tag-sm {
+  padding: 2px 5px;
+  font-size: 10px;
+  
+  svg, i {
+    width: 9px;
+    height: 9px;
+  }
+}
+
+.tag-lg {
+  padding: 4px 8px;
+  font-size: 11px;
+  
+  svg, i {
+    width: 11px;
+    height: 11px;
+  }
+}
+
+// ========== 可关闭标签 - 苹果交互设计 ==========
+
+.tag-closable {
+  padding-right: 4px;
+  
+  .tag-close {
+    @include apple-transition(all, 'fast', 'smooth');
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    
+    width: 14px;
+    height: 14px;
+    margin-left: 3px;
+    border-radius: 50%;
+    
+    background: rgba(0,0,0,0.1);
+    cursor: pointer;
+    
+    svg, i {
+      width: 8px;
+      height: 8px;
+    }
+    
+    &:hover {
+      background: rgba(0,0,0,0.2);
+      transform: scale(1.1);
+    }
+    
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+}
+
+// ========== 徽章样式 - 苹果数字显示 ==========
+
+.badge {
+  @include apple-typography('sm', 'bold');
+  @include apple-radius('full');
+  
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  white-space: nowrap;
+  
+  &.badge-accent {
+    background: var(--accent);
+    color: #fff;
+  }
+  
+  &.badge-green {
+    background: var(--green);
+    color: #fff;
+  }
+  
+  &.badge-amber {
+    background: var(--amber);
+    color: #fff;
+  }
+  
+  &.badge-red {
+    background: var(--red);
+    color: #fff;
+  }
+  
+  &.badge-outline {
+    background: transparent;
+    border: 1px solid currentColor;
+  }
+  
+  &.badge-xs {
+    min-width: 14px;
+    height: 14px;
+    padding: 0 4px;
+    font-size: 9px;
+  }
+  
+  &.badge-lg {
+    min-width: 22px;
+    height: 22px;
+    padding: 0 6px;
+    font-size: 11px;
+  }
+}
+
+// ========== 点状态指示器 - 苹果状态显示 ==========
+
+.status-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  vertical-align: middle;
+  
+  &.status-active {
+    background: var(--green);
+    box-shadow: 0 0 0 2px rgba(61,214,140,0.2);
+    animation: pulse 2s infinite;
+  }
+  
+  &.status-warning {
+    background: var(--amber);
+    box-shadow: 0 0 0 2px rgba(245,197,66,0.2);
+  }
+  
+  &.status-error {
+    background: var(--red);
+    box-shadow: 0 0 0 2px rgba(239,68,68,0.2);
+  }
+  
+  &.status-inactive {
+    background: var(--text-4);
+  }
+}
+
+// ========== 标签组合 ==========
+
+.tag-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+  
+  &.tag-group-vertical {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  &.tag-group-dense {
+    gap: 2px;
+  }
+}
+
+// ========== 标签列表 ==========
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  
+  margin: spacing('sm') 0;
+  
+  &.tag-list-compact {
+    gap: 4px;
+  }
+  
+  &.tag-list-spread {
+    gap: 8px;
+  }
+}
+
+// ========== 比分徽章 - 苹果评分展示 ==========
+
+.score-badge {
+  @include apple-typography('sm', 'bold');
+  @include apple-radius('sm');
+  
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  
+  padding: 2px 6px;
+  
+  font-variant-numeric: tabular-nums;
+  
+  background: var(--accent-gradient);
+  color: #fff;
+  
+  box-shadow: 0 1px 3px rgba(132,116,247,0.25),
+              inset 0 1px 0 rgba(255,255,255,0.1);
+  
+  &.score-high {
+    background: linear-gradient(135deg, #3dd68c, #2cc07a);
+    box-shadow: 0 1px 3px rgba(61,214,140,0.25);
+  }
+  
+  &.score-medium {
+    background: linear-gradient(135deg, #f5c542, #d4a633);
+    box-shadow: 0 1px 3px rgba(245,197,66,0.25);
+  }
+  
+  &.score-low {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    box-shadow: 0 1px 3px rgba(239,68,68,0.25);
+  }
+  
+  svg, i {
+    width: 10px;
+    height: 10px;
+  }
+}
+
+// ========== 无障碍支持 ==========
+
+@media (prefers-contrast: high) {
+  .tag, .badge {
+    border-width: 2px;
+  }
+  
+  .tag-model::before,
+  .tag-cost::before {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .status-active {
+    animation: none;
+  }
+  
+  .tag, .badge, .score-badge {
+    transition: none;
+  }
+}

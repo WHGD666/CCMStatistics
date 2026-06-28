@@ -1,0 +1,426 @@
+/* ============================================
+   按钮组件 - 苹果设计标准
+   ============================================ */
+
+// ========== 按钮基础 ==========
+
+.btn {
+  // 基础样式
+  @include apple-typography('base', 'semibold');
+  @include apple-radius('md');
+  @include apple-transition(all, 'fast', 'smooth');
+  
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  
+  padding: 6px 14px;
+  min-height: 32px;
+  
+  cursor: pointer;
+  border: 1px solid transparent;
+  position: relative;
+  overflow: hidden;
+  
+  user-select: none;
+  white-space: nowrap;
+  vertical-align: middle;
+  
+  // 苹果式光泽效果
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, 
+      rgba(255,255,255,0.12) 0%,
+      rgba(255,255,255,0.06) 50%,
+      transparent 100%
+    );
+    opacity: 0;
+    @include apple-transition(opacity, 'fast', 'smooth');
+    pointer-events: none;
+  }
+  
+  &:hover::before {
+    opacity: 1;
+  }
+  
+  // 苹果式点击反馈
+  &:active {
+    transform: scale(0.97);
+    transition-duration: 50ms;
+  }
+  
+  // 禁用状态
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    
+    &::before {
+      opacity: 0;
+    }
+  }
+  
+  // 图标样式
+  svg, i {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+  }
+}
+
+// ========== 主按钮 - 苹果渐变风格 ==========
+
+.btn-primary {
+  background: var(--accent-gradient);
+  color: #fff;
+  border: none;
+  
+  // 苹果式立体感
+  box-shadow: 
+    0 1px 3px rgba(0,0,0,0.25),
+    inset 0 1px 0 rgba(255,255,255,0.15),
+    inset 0 -1px 0 rgba(0,0,0,0.1);
+  
+  &:hover {
+    filter: brightness(1.08);
+    box-shadow: 
+      0 3px 8px rgba(132,116,247,0.35),
+      inset 0 1px 0 rgba(255,255,255,0.2),
+      inset 0 -1px 0 rgba(0,0,0,0.15);
+  }
+  
+  &:active {
+    filter: brightness(0.95);
+    box-shadow: 
+      0 1px 2px rgba(0,0,0,0.2),
+      inset 0 1px 0 rgba(255,255,255,0.1),
+      inset 0 -1px 0 rgba(0,0,0,0.2);
+  }
+  
+  &:focus-visible {
+    box-shadow: 
+      0 0 0 3px var(--accent-soft),
+      0 1px 3px rgba(0,0,0,0.25),
+      inset 0 1px 0 rgba(255,255,255,0.15);
+  }
+}
+
+// ========== Ghost按钮 - 苹果透明风格 ==========
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-2);
+  border: 1px solid var(--border);
+  
+  &:hover {
+    background: var(--bg-card-hover);
+    color: var(--text-1);
+    border-color: var(--border-hover);
+  }
+  
+  &:active {
+    background: var(--bg-card);
+    transform: scale(0.98);
+  }
+  
+  &:focus-visible {
+    box-shadow: 0 0 0 3px var(--accent-soft);
+    border-color: var(--accent);
+  }
+}
+
+// ========== 危险按钮 - 苹果警告风格 ==========
+
+.btn-danger {
+  background: var(--red);
+  color: #fff;
+  border: none;
+  
+  box-shadow: 
+    0 1px 3px rgba(239,68,68,0.25),
+    inset 0 1px 0 rgba(255,255,255,0.1);
+  
+  &:hover {
+    filter: brightness(1.1);
+    box-shadow: 
+      0 3px 8px rgba(239,68,68,0.35),
+      inset 0 1px 0 rgba(255,255,255,0.15);
+  }
+  
+  &:active {
+    filter: brightness(0.9);
+    box-shadow: 
+      0 1px 2px rgba(239,68,68,0.2),
+      inset 0 -1px 0 rgba(0,0,0,0.2);
+  }
+  
+  &:focus-visible {
+    box-shadow: 
+      0 0 0 3px rgba(239,68,68,0.2),
+      0 1px 3px rgba(239,68,68,0.25);
+  }
+}
+
+// ========== 成功按钮 ==========
+
+.btn-success {
+  background: var(--green);
+  color: #fff;
+  border: none;
+  
+  box-shadow: 
+    0 1px 3px rgba(61,214,140,0.25),
+    inset 0 1px 0 rgba(255,255,255,0.1);
+  
+  &:hover {
+    filter: brightness(1.1);
+  }
+}
+
+// ========== 按钮尺寸变体 ==========
+
+.btn-xs {
+  padding: 2px 6px;
+  font-size: 10px;
+  min-height: 24px;
+  
+  svg, i {
+    width: 12px;
+    height: 12px;
+  }
+}
+
+.btn-sm {
+  padding: 4px 10px;
+  font-size: 11px;
+  min-height: 28px;
+  
+  svg, i {
+    width: 12px;
+    height: 12px;
+  }
+}
+
+.btn-lg {
+  padding: 8px 18px;
+  font-size: 13px;
+  min-height: 40px;
+  
+  svg, i {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.btn-xl {
+  padding: 10px 24px;
+  font-size: 14px;
+  min-height: 48px;
+  
+  svg, i {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+// ========== 按钮形状变体 ==========
+
+.btn-pill {
+  border-radius: radius('full');
+  padding: 6px 18px;
+}
+
+.btn-square {
+  border-radius: radius('sm');
+}
+
+.btn-circle {
+  border-radius: 50%;
+  padding: 8px;
+  min-width: 32px;
+  
+  svg, i {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+// ========== 按钮状态变体 ==========
+
+.btn-loading {
+  color: transparent;
+  pointer-events: none;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+  }
+}
+
+.btn-block {
+  width: 100%;
+  justify-content: center;
+}
+
+// ========== 按钮组合 ==========
+
+.btn-group {
+  display: inline-flex;
+  gap: 0;
+  
+  .btn {
+    border-radius: 0;
+    
+    &:first-child {
+      border-radius: radius('md') 0 0 radius('md');
+    }
+    
+    &:last-child {
+      border-radius: 0 radius('md') radius('md') 0;
+    }
+    
+    &:not(:last-child) {
+      border-right: none;
+    }
+  }
+}
+
+// ========== Icon按钮 ==========
+
+.btn-icon {
+  padding: 6px;
+  min-width: 32px;
+  
+  svg, i {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.btn-icon-sm {
+  padding: 4px;
+  min-width: 28px;
+  
+  svg, i {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+.btn-icon-lg {
+  padding: 10px;
+  min-width: 40px;
+  
+  svg, i {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+// ========== 特殊按钮样式 ==========
+
+// Apple式操作按钮
+.action-btn {
+  @include apple-radius('md');
+  @include apple-transition(all, 'fast', 'smooth');
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-2);
+  cursor: pointer;
+  
+  svg, i {
+    width: 15px;
+    height: 15px;
+  }
+  
+  &:hover {
+    background: var(--bg-card-hover);
+    color: var(--text-1);
+    border-color: var(--border-hover);
+  }
+  
+  &:active {
+    transform: scale(0.95);
+  }
+  
+  &:focus-visible {
+    box-shadow: 0 0 0 3px var(--accent-soft);
+    border-color: var(--accent);
+  }
+}
+
+// 菜单按钮（移动端）
+.menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  gap: 3px;
+  
+  @include respond-down('md') {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  span {
+    display: block;
+    width: 16px;
+    height: 1.5px;
+    background: var(--text-1);
+    border-radius: 1px;
+    @include apple-transition(all, 'fast', 'smooth');
+  }
+  
+  &:hover span {
+    background: var(--accent);
+  }
+  
+  &:active span {
+    width: 14px;
+  }
+}
+
+// ========== 按钮动画增强 ==========
+
+// 成功动画按钮
+.btn-success-animate {
+  &:active {
+    animation: successPop 0.4s ease('spring');
+  }
+}
+
+// 错误动画按钮
+.btn-error-animate {
+  &:active {
+    animation: errorShake 0.4s;
+  }
+}
+
+// ========== 无障碍支持 ==========
+
+@media (prefers-contrast: high) {
+  .btn {
+    border-width: 2px;
+  }
+  
+  .btn-primary {
+    border: 2px solid #fff;
+  }
+}
